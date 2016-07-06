@@ -1,0 +1,11 @@
+{
+  "name": "changelly_api",
+  "version": "1.0.0",
+  "description": "Changelly API Example",
+  "main": "index.js",
+  "dependencies": {
+    "jayson": "^2.0.1",
+    "socket.io-client": "^1.4.6"
+  },
+  "devDependencies": {}
+}
