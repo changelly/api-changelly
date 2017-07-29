@@ -1,10 +1,10 @@
 'use strict';
 module.exports = (function() {
-  var URL = 'https://api.changelly.com';
-  var io = require('socket.io-client');
-  var jayson = require('jayson');
-  var crypto = require('crypto');
-  var client = jayson.client.https(URL);
+  const URL = 'https://api.changelly.com';
+  const io = require('socket.io-client');
+  const jayson = require('jayson');
+  const crypto = require('crypto');
+  const client = jayson.client.https(URL);
 
   function Changelly(apiKey, apiSecret) {
     this._id = function() {
@@ -22,19 +22,31 @@ module.exports = (function() {
     };
        
     this._request = function(method, options, callback) {
-      var id = this._id();
-      var message = jayson.utils.request(method, options, id);
+      const id = this._id();
+      const message = jayson.utils.request(method, options, id);
       client.options.headers = {
         'api-key': apiKey,
         'sign': this._sign(message)
       };
-      
-      client.request(method, options, id, function(err, response) {
-        callback(err, response);
+
+      return new Promise((resolve, reject) => {
+        client.request(method, options, id, function(err, response) {
+          if(err) {
+            if(callback) {
+              callback(err);
+            }
+            reject(err);
+          } else {
+            if(callback) {
+              callback(null, response);
+            }
+            resolve(response);
+          }
+        });
       });
     };
     
-    var self = this;
+    const self = this;
     
     this._socket = io.connect(URL, {
       'reconnection': true,
@@ -44,7 +56,7 @@ module.exports = (function() {
     });
 
     this._socket.on('connect', function() {
-      var message = {
+      const message = {
         "Login": {}
       };
       
@@ -63,7 +75,7 @@ module.exports = (function() {
       return this._request('getCurrencies', {}, callback);
     },
     generateAddress: function(from, to, address, extraId, callback) {
-      var params = {
+      const params = {
         from: from,
         to: to,
         address: address,
@@ -73,7 +85,7 @@ module.exports = (function() {
       return this._request('generateAddress', params, callback);
     },
     getMinAmount: function(from, to, callback) {
-      var params = {
+      const params = {
         from: from,
         to: to
       };
@@ -81,7 +93,7 @@ module.exports = (function() {
       return this._request('getMinAmount', params, callback);
     },
     getExchangeAmount: function(from, to, amount, callback) {
-      var params = {
+      const params = {
         from: from,
         to: to,
         amount: amount
@@ -90,7 +102,7 @@ module.exports = (function() {
       return this._request('getExchangeAmount', params, callback);
     },
     getTransactions: function(limit, offset, currency, address, extraId, callback) {
-      var params = {
+      const params = {
         limit: limit,
         offset: offset,
         currency: currency,
@@ -101,7 +113,7 @@ module.exports = (function() {
       return this._request('getTransactions', params, callback);
     },
     getStatus: function(id, callback) {
-      var params = {
+      const params = {
         id: id
       };
 
