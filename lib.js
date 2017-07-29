@@ -7,6 +7,7 @@ module.exports = (function() {
   const client = jayson.client.https(URL);
 
   function Changelly(apiKey, apiSecret) {
+    this._apiKey = apiKey;
     this._id = function () {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -126,6 +127,7 @@ module.exports = (function() {
     },
     on: function(channel, callback) {
       this._socket.on(channel, callback);
+      return () => this._socket.off(channel, callback);
     }
   };
   
