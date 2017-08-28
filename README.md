@@ -261,17 +261,17 @@ Direct your users to Changelly's support. You can receive the widget code and in
 
 * * *
 
-### **Basic UI**
+### **Extra options**
 
-You can get the basic web page with API implementation by request.
+* Revenue share — set your own exchange fee and receive revenue
+* Widget — implement Changelly exchange with a simple widget
+* Back office — start supporting your users with and easy-to-use
 
 * * *
 
 ### **Coming soon**
 
-*   Revenue share — set your own exchange fee and receive revenue
-*   Widget — implement Changelly exchange with a simple widget
-*   Back office — start supporting your users with and easy-to-use admin panel
+* Basic UI
 
 * * *
 
