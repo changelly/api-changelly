@@ -4,20 +4,20 @@ The following methods are used to empower your service with Changelly exchange f
 
 ### **Table of contents**:
 
-1.  [Getting started](#getting-started)
-2.  [Usage](#usage)
-    2.  [Protocol](#protocol)
-    3.  [Authentication](#authentication)
-    4.  [Currency list](#currencies-list)
-    5.  [Setting up addresses](#setting-up)
-    6.  [Estimated exchange amount](#estimated-exchange)
-    7.  [Minimum exchangeable amount](#minimum-exchangeable)
-    8.  [Identifying the transaction](#identifying-the-transaction)
-    9.  [Getting exchange status](#getting-exchange-status)
-    10.  [Socket.io](#socket)
-    11.  [Support](#support)
-3.  [Basic UI](#basic-ui)
-4.  [Coming soon](#coming-soon)
+1. [Getting started](#getting-started)
+2. [Usage](#usage)
+   - [Protocol](#protocol)
+   - [Authentication](#authentication)
+   - [Currency list](#currencies-list)
+   - [Setting up addresses](#setting-up)
+   - [Estimated exchange amount](#estimated-exchange)
+   - [Minimum exchangeable amount](#minimum-exchangeable)
+   - [Identifying the transaction](#identifying-the-transaction)
+   - [Getting exchange status](#getting-exchange-status)
+   - [Socket.io](#socket)
+   - [Support](#support)
+3. [Basic UI](#basic-ui)
+4. [Coming soon](#coming-soon)
 
 * * *
 
