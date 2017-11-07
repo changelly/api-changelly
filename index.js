@@ -13,11 +13,11 @@ changelly.getCurrencies(function(err, data) {
   }
 });
 
-changelly.generateAddress('eth', 'btc', '1PKYrd9CC4RFB65wBrvaAsTWnp8fXePuj', undefined, function(err, data) {
+changelly.createTransaction('eth', 'btc', '1PKYrd9CC4RFB65wBrvaAsTWnp8fXePuj', 10, undefined, function(err, data) {
   if (err){
     console.log('Error!', err);
   } else {
-    console.log('generateAddress', data);
+    console.log('createTransaction', data);
   }
 });
 
