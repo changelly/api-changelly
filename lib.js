@@ -62,15 +62,16 @@ module.exports = (function() {
     getCurrencies: function(callback) {
       return this._request('getCurrencies', {}, callback);
     },
-    generateAddress: function(from, to, address, extraId, callback) {
+    createTransaction: function(from, to, address, amount, extraId, callback) {
       var params = {
         from: from,
         to: to,
         address: address,
+        amount: amount,
         extraId: extraId
       };
 
-      return this._request('generateAddress', params, callback);
+      return this._request('createTransaction', params, callback);
     },
     getMinAmount: function(from, to, callback) {
       var params = {
@@ -114,4 +115,3 @@ module.exports = (function() {
   
   return Changelly;
 })();
-    
