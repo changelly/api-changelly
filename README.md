@@ -23,6 +23,9 @@ The following methods are used to empower your service with Changelly exchange f
 
 ### **Getting started**
 
+** INSTALL **
+npm install https://github.com/pakokrew/api-changelly
+
 1.  Contact pro@changelly.com for API access.
 2.  Get verification.
 3.  Get the API key and API secret.
