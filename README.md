@@ -141,9 +141,38 @@ const sign = crypto
 
 ##### Postman authentication
 
+Here is a small guide how to properly sign transaction with postman: 
+
+1. Add new environment.
+
+[Postman add new environment](https://i.imgur.com/JRKa2qb.png)
+
+2. Add `sign` and `api-key` variables to the new environment.
+
+[Postman manage environments setupt](https://i.imgur.com/P0sMNz7.png)
+
+3. Create new request. Being on the `Headers` tab add `sign` and `api-key` headers. Use postman variable syntax for them in `Value` column. Theese variables will be updated for each request using the pre-request script.
+
+[Postman headers setup](https://i.imgur.com/xfwxoQY.png)
+
+4. Paste the following code to the `Pre-request` tab for the request. Fill up the apiKey and secret variables. Be very careful not to accidentally share your secret.
+
+```js
+
+const crypto = require('crypto-js')
+
+const apiKey = ''
+const secret = ''
+
+const sign = crypto.HmacSHA512(request.data, secret).toString()
+
+postman.setEnvironmentVariable('apiKey', apiKey);
+postman.setEnvironmentVariable('sign', sign);
+
 ```
-todo
-```
+
+[Postman pre-request script setup](https://i.imgur.com/dWSIag6.png)
+
 
 ##### Curl authentication
 
