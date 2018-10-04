@@ -13,7 +13,6 @@ The following methods are used to empower your service with Changelly exchange f
   - [Authentication](#authentication)
     * [Node.js authentication](#nodejs-authentication)
     * [Postman authentication](#postman-authentication)
-    * [Curl authentication](#curl-authentication)
   - [Currency List](#currency-list)
   - [Minimum Exchangable Amount](#minimum-exchangable-amount)
   - [Estimated Exchange Amount](#estimated-exchange-amount)
@@ -172,13 +171,6 @@ postman.setEnvironmentVariable('sign', sign);
 ```
 
 ![Postman pre-request script setup](https://i.imgur.com/dWSIag6.png)
-
-
-##### Curl authentication
-
-```
-todo
-```
 
 #### Currency List
 
