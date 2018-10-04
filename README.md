@@ -165,8 +165,8 @@ const secret = ''
 
 const sign = crypto.HmacSHA512(request.data, secret).toString()
 
-postman.setEnvironmentVariable('apiKey', apiKey);
-postman.setEnvironmentVariable('sign', sign);
+postman.setEnvironmentVariable('apiKey', apiKey)
+postman.setEnvironmentVariable('sign', sign)
 
 ```
 
