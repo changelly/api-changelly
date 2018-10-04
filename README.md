@@ -15,7 +15,7 @@ The following methods are used to empower your service with Changelly exchange f
     * [Postman authentication](#postman-authentication)
     * [Curl authentication](#curl-authentication)
   - [Currency List](#currency-list)
-  - [Minimum Exchangeable Amount](#minimum-exchangeable-amount)
+  - [Minimum Exchangable Amount](#minimum-exchangable-amount)
   - [Estimated Exchange Amount](#estimated-exchange-amount)
   - [Generating Transaction](#generating-transaction)
   - [Identifying The Transaction](#identifying-the-transaction)
@@ -186,7 +186,7 @@ Example response:
 
 _Note and warning_: getCurrencies returns a list of currently enabled currencies. We can disable and enable any currency at any time and the response list will reflect the change. Use `getCurrenciesFull` to get list of all available currencies along with description and state.
 
-#### Minimum Exchangeable Amount
+#### Minimum Exchangable Amount
 
 To proceed with an exchange we need it to be larger than the certein amount. Use `getMinAmount` with a currency pair (`from`, `to`) to notify users of the minimum amount they need to send.
 
