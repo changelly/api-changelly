@@ -79,25 +79,25 @@ Changelly API uses JSON-RPC 2.0 protocol.
 
 Example request:
 
-```js
+```json
 {
-  "jsonrpc": "2.0",
-  "id": "test",
-  "method": "getMinAmount",
-  "params": {
-    "from": "ltc",
-    "to": "eth"
-  }
+   "jsonrpc": "2.0",
+   "id": "test",
+   "method": "getMinAmount",
+   "params": {
+      "from": "ltc",
+      "to": "eth"
+   }
 }
 ```
 
 Example response:
 
-```js
+```json
 {
-    "jsonrpc": "2.0",
-    "id": "test",
-    "result": "0.0008563"
+   "jsonrpc": "2.0",
+   "id": "test",
+   "result": "0.0008563"
 }
 ```
 
@@ -107,13 +107,14 @@ Example response:
 
 All requests must contain the following headers:
 
-|**Header**|**Description**|
-|api-key|your api key|
-|sign|the query's serialized body signed by your key's "secret" according to the HMAC-SHA512 method|
+| **Header** | **Description** |
+|------------|-----------------|
+| api-key    | your api key    |
+| sign       | the query's serialized body signed by your key's "secret" according to the HMAC-SHA512 method |
 
 Node.js example:
 
-```
+```js
 var crypto = require("crypto");
 
 var message = {
@@ -148,32 +149,32 @@ todo
 
 Commands `getCurrencies` and `getCurrenciesFull` will return you the currency list available for an exchange. Check the list of available currencies at [Supported currencies page](https://changelly.com/supported-currencies "https://changelly.com/supported-currencies") before you start. Example request:
 
-```
+```json
 {
-  "jsonrpc": "2.0",
-  "id": "test",
-  "method": "getCurrencies",
-  "params": {},
+   "jsonrpc": "2.0",
+   "id": "test",
+   "method": "getCurrencies",
+   "params": {},
 }
 ```
 
 Example response:
 
-```
+```json
 {
-    "jsonrpc": "2.0",
-    "id": "test",
-    "result": [
-        "btc",
-        "ltc",
-        "eth",
-        "doge",
-        "xrp",
-        "xem",
-        "lsk",
-        "xmr",
-        "zec"
-    ]
+   "jsonrpc": "2.0",
+   "id": "test",
+   "result": [
+      "btc",
+      "ltc",
+      "eth",
+      "doge",
+      "xrp",
+      "xem",
+      "lsk",
+      "xmr",
+      "zec"
+   ]
 }
 ```
 
@@ -183,25 +184,25 @@ To proceed with an exchange we need it to be larger than the certein amount. Use
 
 Example:
 
-```
+```json
 {
-  "jsonrpc": "2.0",
-  "id": "test",
-  "method": "getMinAmount",
-  "params": {
-    "from": "ltc",
-    "to": "eth",
-  },
+   "jsonrpc": "2.0",
+   "id": "test",
+   "method": "getMinAmount",
+   "params": {
+      "from": "ltc",
+      "to": "eth",
+   }
 }
 ```
 
 Example response:
 
-```
+```json
 {
-  "jsonrpc": "2.0",
-  "id": "test",
-  "result": "0.0008563"
+   "jsonrpc": "2.0",
+   "id": "test",
+   "result": "0.0008563"
 }
 ```
 
@@ -215,48 +216,49 @@ Example:
 
 ```
 {
-  "jsonrpc": "2.0",
-  "id": "test",
-  "method": "getExchangeAmount",
-  "params": {
-    "from": "ltc",
-    "to": "eth",
-    "amount": "3.99"
-  },
+   "jsonrpc": "2.0",
+   "id": "test",
+   "method": "getExchangeAmount",
+   "params": {
+      "from": "ltc",
+      "to": "eth",
+      "amount": "3.99"
+   },
 }
 ```
 
 Example response:
-```
+
+```json
 {
-    "jsonrpc": "2.0",
-    "id": "test",
-    "result": "0.72596439091239070521"
+   "jsonrpc": "2.0",
+   "id": "test",
+   "result": "0.72596439091239070521"
 }
 ```
 
 To get rate for multiple currency pairs, you just have to pass array of arguments, i.e. for one currency pair:
 
-```
+```json
 {
-  "jsonrpc": "2.0",
-  "id": "test",
-  "method": "getExchangeAmount",
-  "params": [{
-    "from": "ltc",
-    "to": "eth",
-    "amount": "3.99"
-  }, {
-    "from": "dash",
-    "to": "xmr",
-    "amount": "3.99"
-  }],
+   "jsonrpc": "2.0",
+   "id": "test",
+   "method": "getExchangeAmount",
+   "params": [{
+      "from": "ltc",
+      "to": "eth",
+      "amount": "3.99"
+   }, {
+      "from": "dash",
+      "to": "xmr",
+      "amount": "3.99"
+   }]
 }
 ```
 
 Example response:
 
-```
+```json
 {
    "jsonrpc": "2.0",
    "id": "test",
@@ -283,60 +285,62 @@ Aftter a successfull call of `createTransaction` method you get an unique id to 
 
 `createTransaction`, once get called, creates a pair of deposit and payout address. If somebody sends coins to the same address twice, without second call to createTransaction, the coins will be exchanged and sent to the user's payout address.
 
-|Property|Required or optional|Description|
-|from|required|currency to exchange from|
-|to|required|currency to exchange to|
-|address|required|recipient address|
-|extraId|optional|property for addresses of currencies that use additional ID for transaction processing (XRP, STEEM/SBD, XLM, DCT, XEM)|
-|refundAddress|optional|used in case of a refund|
-|refundExtraIdAddress|optional|same as of extraId but for refundAddress|
+| Property | Required or optional | Description |
+|----------|----------------------|-------------|
+| from     | required             | currency to exchange from |
+| to       | required             | currency to exchange to |
+| address  | required             | recipient address|
+| extraId  | optional             | property for addresses of currencies that use additional ID for transaction processing (XRP, STEEM/SBD, XLM, DCT, XEM) |
+| refundAddress        | optional | used in case of a refund |
+| refundExtraIdAddress | optional | same as of extraId but for refundAddress|
 
 Example request:
 
-```
+```json
 {
-  "jsonrpc": "2.0",
-  "id": "test",
-  "method": "createTransaction",
-  "params": {
-    "from": "doge",
-    "to": "ltc",
-    "address": "<<valid ltc address>>",
-    "extraId": null,
-    "amount": 1
-  }
+   "jsonrpc": "2.0",
+   "id": "test",
+   "method": "createTransaction",
+   "params": {
+      "from": "doge",
+      "to": "ltc",
+      "address": "<<valid ltc address>>",
+      "extraId": null,
+      "amount": 1
+   }
 }
 ```
 
 Example response:
 
-```
+```json
 {
-    "jsonrpc": "2.0",
-    "id": "test",
-    "result": {
-        "id": "jev5lt0qmg26h48v",
-        "apiExtraFee": "0",
-        "changellyFee": "0.5",
-        "payinExtraId": null,
-        "payoutExtraId": null,
-        "amountExpectedFrom": 1,
-        "status": "new",
-        "currencyFrom": "eth",
-        "currencyTo": "ltc",
-        "amountTo": 0,
-        "payinAddress": "<<doge address to send coins to>>",
-        "payoutAddress": "<<valid ltc address>>",
-        "createdAt": "2018-09-24T10:31:18.000Z"
-    }
+   "jsonrpc": "2.0",
+   "id": "test",
+   "result": {
+      "id": "jev5lt0qmg26h48v",
+      "apiExtraFee": "0",
+      "changellyFee": "0.5",
+      "payinExtraId": null,
+      "payoutExtraId": null,
+      "amountExpectedFrom": 1,
+      "status": "new",
+      "currencyFrom": "eth",
+      "currencyTo": "ltc",
+      "amountTo": 0,
+      "payinAddress": "<<doge address to send coins to>>",
+      "payoutAddress": "<<valid ltc address>>",
+      "createdAt": "2018-09-24T10:31:18.000Z"
+   }
 }
 ```
 
 Example 2 request:
 
-```
+```json
 {
   "jsonrpc": "2.0",
+  "id": "test",
   "method": "createTransaction",
   "params": {
     "from": "doge",
@@ -347,33 +351,32 @@ Example 2 request:
     "refundAddress": "<<valid doge address to make automatic refund in case of transaction fail>>",
     "refundExtraId": null
   },
-  "id": 1
 }
 ```
 
 Example 2 response:
 
-```
+```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "result": {
-        "id": "pgj49c80p572minj",
-        "apiExtraFee": "0",
-        "changellyFee": "0.5",
-        "payinExtraId": null,
-        "payoutExtraId": null,
-        "refundAddress": "<<doge refund address>>",
-        "refundExtraId": null,
-        "amountExpectedFrom": 1,
-        "status": "new",
-        "currencyFrom": "eth",
-        "currencyTo": "ltc",
-        "amountTo": 0, // will be 0 until the transaction get finished
-        "payinAddress": "<<doge address to send coins to>>",
-        "payoutAddress": "<<valid ltc address>>",
-        "createdAt": "2018-09-24T10:33:39.000Z"
-    }
+   "jsonrpc": "2.0",
+   "id": 1,
+   "result": {
+      "id": "pgj49c80p572minj",
+      "apiExtraFee": "0",
+      "changellyFee": "0.5",
+      "payinExtraId": null,
+      "payoutExtraId": null,
+      "refundAddress": "<<doge refund address>>",
+      "refundExtraId": null,
+      "amountExpectedFrom": 1,
+      "status": "new",
+      "currencyFrom": "eth",
+      "currencyTo": "ltc",
+      "amountTo": 0, // will be 0 until the transaction get finished
+      "payinAddress": "<<doge address to send coins to>>",
+      "payoutAddress": "<<valid ltc address>>",
+      "createdAt": "2018-09-24T10:33:39.000Z"
+   }
 }
 ```
 
@@ -387,75 +390,72 @@ _Note on transaction processing:_ It's common situation when there are many tran
 
 Example request:
 
-```
+```json
 {
-  "jsonrpc": "2.0",
-  "method": "getTransactions",
-  "params": {
-    "currency": "doge", // optional - currencyFrom to search
-    "address": "<<payin address to search>>", // optional - payinAddress to search
-    "extraId": null, //optional
-    "limit" 10,
-    "offset" : 10
-  },
-  "id": "test"
+   "jsonrpc": "2.0",
+   "id": "test",
+   "method": "getTransactions",
+   "params": {
+      "currency": "doge", // optional - currencyFrom to search
+      "address": "<<payin address to search>>", // optional - payinAddress to search
+      "extraId": null, //optional
+      "limit" 10,
+      "offset" : 10
+   }
 }
 ```
 
 Example response:
 
-```
+```json
 {
-    "jsonrpc": "2.0",
-    "id": "test",
-    "result": \[
-        {
-            "id": "pgj49c80p572minj",
-            "createdAt": 1537785219,
-            "moneyReceived": 0,
-            "moneySent": 0,
-            "payinConfirmations": "0",
-            "status": "waiting",
-            "currencyFrom": "doge", // filters by currencyFrom
-            "currencyTo": "ltc",
-            "payinAddress": "<<payin address>>",
-            "payinExtraId": null,
-            "payinHash": null,
-            "amountExpectedFrom": "1",
-            "payoutAddress": "",
-            "payoutExtraId": null,
-            "payoutHash": null,
-            "refundHash": null,
-            "amountFrom": "",
-            "amountTo": "0",
-            "networkFee": null,
-            "changellyFee": "0.5",
-            "apiExtraFee": "0"
-        },
-        {
-            "id": "7kcc21x5z66f5vv9",
-            "createdAt": 1535638050,
-            "moneyReceived": 1535638050,
-            "moneySent": 0,
-            "payinConfirmations": "1",
-            "status": "confirming",
-            "currencyFrom": "btc",
-            "currencyTo": "doge",
-            "payinAddress": "<<payin address>>", // filters by payinAddress
-            "payinExtraId": null,
-            "payinHash": "txid4",
-            "amountExpectedFrom": "0",
-            "payoutAddress": "<<payout",
-            "payoutExtraId": null,
-            "payoutHash": null,
-            "refundHash": null,
-            "amountFrom": "1",
-            "amountTo": "0",
-            "networkFee": null,
-            "changellyFee": "0.5",
-            "apiExtraFee": "0"
-        }
-    \]
+   "jsonrpc": "2.0",
+   "id": "test",
+   "result": [{
+      "id": "pgj49c80p572minj",
+      "createdAt": 1537785219,
+      "moneyReceived": 0,
+      "moneySent": 0,
+      "payinConfirmations": "0",
+      "status": "waiting",
+      "currencyFrom": "doge", // filters by currencyFrom
+      "currencyTo": "ltc",
+      "payinAddress": "<<payin address>>",
+      "payinExtraId": null,
+      "payinHash": null,
+      "amountExpectedFrom": "1",
+      "payoutAddress": "",
+      "payoutExtraId": null,
+      "payoutHash": null,
+      "refundHash": null,
+      "amountFrom": "",
+      "amountTo": "0",
+      "networkFee": null,
+      "changellyFee": "0.5",
+      "apiExtraFee": "0"
+   }, {
+      "id": "7kcc21x5z66f5vv9",
+      "createdAt": 1535638050,
+      "moneyReceived": 1535638050,
+      "moneySent": 0,
+      "payinConfirmations": "1",
+      "status": "confirming",
+      "currencyFrom": "btc",
+      "currencyTo": "doge",
+      "payinAddress": "<<payin address>>", // filters by payinAddress
+      "payinExtraId": null,
+      "payinHash": "txid4",
+      "amountExpectedFrom": "0",
+      "payoutAddress": "<<payout",
+      "payoutExtraId": null,
+      "payoutHash": null,
+      "refundHash": null,
+      "amountFrom": "1",
+      "amountTo": "0",
+      "networkFee": null,
+      "changellyFee": "0.5",
+      "apiExtraFee": "0"
+   }]
 }
 ```
 
@@ -465,30 +465,31 @@ With the transaction ID, obtained from createTransaction call, you can get excha
 
 Example:
 
-```
+```json
 {
-  "id": "test",
-  "jsonrpc": "2.0",
-  "method": "getStatus",
-  "params": {
+   "jsonrpc": "2.0",
+   "id": "test",
+   "method": "getStatus",
+   "params": {
       "id": "pgj49c80p572minj"
-  }
+   }
 }
 ```
 
 Example response:
 
-```
+```json
 {
-    "jsonrpc": "2.0",
-    "id": "test",
-    "result": "waiting"
+   "jsonrpc": "2.0",
+   "id": "test",
+   "result": "waiting"
 }
 ```
 
 **Possible transaction statuses:**
 
 |**Status**|**Description**|
+|----------|---------------|
 |waiting|Transaction is waiting for user to send coins.|
 |confirming|We have received payin and waiting for certain amount of confirmations depending of incoming currency.|
 |exchanging|Your payment had been confirmed and being exchanged via our partner.|
@@ -502,6 +503,7 @@ Example response:
 As well as JSON RPC, the API provides [socket.io](http://socket.io/ "http://socket.io/") interface for receiving exchange status. The subscription should be signed and have a valid logon message.
 
 |**Key**|**Description**|
+|-------|---------------|
 |sign|message object signed with your `secret` using hmac sha512 method|
 |message|logon message object to sign|
 
@@ -509,7 +511,7 @@ After successful `subscribe` you should be able to subscribe to `status`, `payin
 
 Example:
 
-```
+```json
 socket.on("connect", function() {
   socket.emit("subscribe",
     {
@@ -529,23 +531,23 @@ socket.on("status", function(data) {
 
 Event data example:
 
-```
+```json
 {
-  "id": "adfa2359b68d",
-  "status": "finished",
-  "payinConfirmations": "10",
-  "hash": "9f19186213799b82776c6792238c6b1c016404bb7003346f890bf754b36f69ca",
-  "payinHash": "9f19186213799b82776c5792238c6b1c016504bb7003346f890bf754b36f69ca",
-  "payoutHash": "0x1d04f3df2f7209ca985895ecf2e31a07e04889367d37d98c1e8d90fdfb568ec8",
-  "payinAddress": "NBLQ6PE7Z5CVANJNXGOR74UQLOJ2YMGJJOZ4YFAQ",
-  "payinExtraId": "7c5aefb158ec11e7bbdcafa2978ff15b",
-  "payoutAddress": "0x988fa9Bb5C0a462932d9C714E2643a4692E4ABc5",
-  "payoutExtraId": null,
-  "currencyFrom": "ltc",
-  "currencyTo": "eth",
-  "amountFrom": "10",
-  "amountTo": "0.2",
-  "networkFee": "0.01"
+   "id": "adfa2359b68d",
+   "status": "finished",
+   "payinConfirmations": "10",
+   "hash": "9f19186213799b82776c6792238c6b1c016404bb7003346f890bf754b36f69ca",
+   "payinHash": "9f19186213799b82776c5792238c6b1c016504bb7003346f890bf754b36f69ca",
+   "payoutHash": "0x1d04f3df2f7209ca985895ecf2e31a07e04889367d37d98c1e8d90fdfb568ec8",
+   "payinAddress": "NBLQ6PE7Z5CVANJNXGOR74UQLOJ2YMGJJOZ4YFAQ",
+   "payinExtraId": "7c5aefb158ec11e7bbdcafa2978ff15b",
+   "payoutAddress": "0x988fa9Bb5C0a462932d9C714E2643a4692E4ABc5",
+   "payoutExtraId": null,
+   "currencyFrom": "ltc",
+   "currencyTo": "eth",
+   "amountFrom": "10",
+   "amountTo": "0.2",
+   "networkFee": "0.01"
 }
 ```
 
@@ -569,5 +571,3 @@ The support-line option is provided at the discretion of the Changelly's develop
 #### 4.2 Operations History Online
 
 You can check all the transactions with online stats on the [history page](https://changelly.com/history "https://changelly.com/history") in your personal account.
-
-
