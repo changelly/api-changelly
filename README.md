@@ -214,7 +214,7 @@ You can show to users estimated amount of coins they receive as a result of exch
 
 Example:
 
-```
+```json
 {
    "jsonrpc": "2.0",
    "id": "test",
