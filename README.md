@@ -18,7 +18,7 @@ The following methods are used to empower your service with Changelly exchange f
    - [Socket.io](#socket)
    - [Support](#support)
 
-1 Getting started
+Getting started
 -----------------
 
 1. Register and get the API key — [generate](https://changelly.com/developers#keys "https://changelly.com/developers#keys");
@@ -28,7 +28,7 @@ The following methods are used to empower your service with Changelly exchange f
 
 * * *
 
-2 Your API extra commission
+Your API extra commission
 ---------------------------
 
 After setting up an API key you may want to set up your API extra fee.
@@ -39,7 +39,7 @@ To set up an extra commission, [please email us](mailto:pro@changelly.com "pro@c
 
 Your API exrta commission is included in a result of `getExchangeAmount` function call. All fees are always in output currency.
 
-3 Usage
+Usage
 -------
 
 [Usage schema](https://changelly.com/content/faq/how_it_works.png)
@@ -72,7 +72,7 @@ Here is simple use case of our exchange API:
 11.  Via [socket.io](http://socket.io/ "http://socket.io/") API functions you can get the user's transaction status online;
 12.  Via `getTransactions` you can get all the transactions history.
 
-#### 3.1 Protocol
+#### Protocol
 
 Changelly API uses JSON-RPC 2.0 protocol.
 
@@ -100,9 +100,9 @@ Example response:
 }
 ```
 
-#### 3.2 Authentication
+#### Authentication
 
-##### 3.2.1 Node.js authentication
+##### Node.js authentication
 
 All requests must contain the following headers:
 
@@ -132,19 +132,19 @@ const sign = crypto
    .digest('hex');
 ```
 
-##### 3.2.2 Postman authentication
+##### Postman authentication
 
 ```
 todo
 ```
 
-##### 3.2.3 Curl authentication
+##### Curl authentication
 
 ```
 todo
 ```
 
-#### 3.3 Currency List
+#### Currency List
 
 Commands `getCurrencies` and `getCurrenciesFull` will return you the currency list available for an exchange. Check the list of available currencies at [Supported currencies page](https://changelly.com/supported-currencies "https://changelly.com/supported-currencies") before you start. Example request:
 
@@ -179,7 +179,7 @@ Example response:
 
 _Note and warning_: getCurrencies returns a list of currently enabled currencies. We can disable and enable any currency at any time and the response list will reflect the change. Use `getCurrenciesFull` to get list of all available currencies along with description and state.
 
-#### 3.4 Minimum Exchangeable Amount
+#### Minimum Exchangeable Amount
 
 To proceed with an exchange we need it to be larger than the certein amount. Use `getMinAmount` with a currency pair (`from`, `to`) to notify users of the minimum amount they need to send.
 
@@ -209,7 +209,7 @@ Example response:
 
 **NOTE: most of the users do not read the information about the minimum amount. Be sure to highlight this information in your UI. If users send less than the minimum amount, their coins will likely be lost.**
 
-#### 3.5 Estimated Exchange Amount
+#### Estimated Exchange Amount
 
 You can show to users estimated amount of coins they receive as a result of exchange using `getExchangeAmount`. You need to provide the request with currency pair (`from`, `to`) and the `amount` user is going to exchange. Estimated `result` property includes changelly plus partner extra fee. All fees are always in output currency. Your API exrta fee will decrease the estimated `result`.
 
@@ -280,7 +280,7 @@ Example response:
 }
 ```
 
-#### 3.6 Generating Transaction
+#### Generating Transaction
 
 Aftter a successfull call of `createTransaction` method you get an unique id to track the transaction status and a payin address for a user to send money to.
 
@@ -383,7 +383,7 @@ Example 2 response:
 
 _Note_: `amountTo: 0` is expected. `amountTo` will have non-zero value when transaction is in `finished` state.
 
-#### 3.7 Identifying The Transaction
+#### Identifying The Transaction
 
 To identify transaction the id from the `createTransaction` method is used.
 
@@ -475,7 +475,7 @@ Example response:
 
 Note: first
 
-#### 3.8 Getting Exchange Status
+#### Getting Exchange Status
 
 With the transaction ID, obtained from createTransaction call, you can get exchange status to notify your user orto provide additional support.
 
@@ -567,10 +567,10 @@ Event data example:
 }
 ```
 
-4 Support
+Support
 ---------
 
-#### 4.1 Dedicated Support-Line
+#### Dedicated Support-Line
 
 Changelly provides two options for support. Please choose your support-line and inform us at [pro@changelly.com](mailto:pro@changelly.com "pro@changelly.com"):
 
@@ -584,6 +584,6 @@ Also, send us a link to your service, confirm that you are ready to provide supp
 
 The support-line option is provided at the discretion of the Changelly's developer team.
 
-#### 4.2 Operations History Online
+#### Operations History Online
 
 You can check all the transactions with online stats on the [history page](https://changelly.com/history "https://changelly.com/history") in your personal account.
