@@ -20,7 +20,7 @@ The following methods are used to empower your service with Changelly exchange f
   - [Generating Transaction](#generating-transaction)
   - [Identifying The Transaction](#identifying-the-transaction)
   - [Getting Exchange Status](#getting-exchange-status)
-  - [3.9 Socket.io](#39-socketio)
+  - [Socket.io](#socketio)
 * [Support](#support)
   - [Dedicated Support-Line](#dedicated-support-line)
   - [Operations History Online](#operations-history-online)
@@ -521,7 +521,7 @@ Example response:
 |failed|Transaction has failed. In most cases, the amount was less than the minimum. Please contact support providing transaction id.|
 |refunded|Exchange was failed and coins were refunded to user's wallet. The wallet address should be provided by user.|
 
-#### 3.9 Socket.io
+#### Socket.io
 
 As well as JSON RPC, the API provides [socket.io](http://socket.io/ "http://socket.io/") interface for receiving exchange status. The subscription should be signed and have a valid logon message.
 
