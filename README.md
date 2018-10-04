@@ -372,13 +372,15 @@ Example 2 response:
       "status": "new",
       "currencyFrom": "eth",
       "currencyTo": "ltc",
-      "amountTo": 0, // will be 0 until the transaction get finished
+      "amountTo": 0,
       "payinAddress": "<<doge address to send coins to>>",
       "payoutAddress": "<<valid ltc address>>",
       "createdAt": "2018-09-24T10:33:39.000Z"
    }
 }
 ```
+
+_Note_: `amountTo: 0` is expected. `amountTo` will have non-zero value when transaction is in `finished` state.
 
 #### 3.7 Identifying The Transaction
 
