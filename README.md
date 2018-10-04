@@ -79,7 +79,7 @@ Changelly API uses JSON-RPC 2.0 protocol.
 
 Example request:
 
-```
+```js
 {
   "jsonrpc": "2.0",
   "id": "test",
@@ -87,13 +87,13 @@ Example request:
   "params": {
     "from": "ltc",
     "to": "eth"
-  },
+  }
 }
 ```
 
 Example response:
 
-```
+```js
 {
     "jsonrpc": "2.0",
     "id": "test",
