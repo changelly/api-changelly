@@ -6,7 +6,7 @@ The following methods are used to empower your service with Changelly exchange f
 ### **Table of contents**:
 
 * [Getting started](#getting-started)
-* [Your API extra commission](#your-api-extra-commission)
+* [Your API extra fee](#your-api-extra-fee)
 * [Usage](#usage)
   - [Use Case](#use-case)
   - [Protocol](#protocol)
@@ -35,8 +35,8 @@ Getting started
 
 * * *
 
-Your API extra commission
----------------------------
+Your API extra fee
+------------------
 
 After setting up an API key you may want to set up your API extra fee.
 
