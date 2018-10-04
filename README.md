@@ -170,7 +170,7 @@ postman.setEnvironmentVariable('sign', sign)
 
 ```
 
-![Postman pre-request script setup](https://i.imgur.com/dWSIag6.png)
+![Postman pre-request script setup](https://i.imgur.com/tpiMzIu.png)
 
 #### Currency List
 
