@@ -360,7 +360,7 @@ Example 2 response:
 ```json
 {
    "jsonrpc": "2.0",
-   "id": 1,
+   "id": "test",
    "result": {
       "id": "pgj49c80p572minj",
       "apiExtraFee": "0",
