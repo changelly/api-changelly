@@ -138,7 +138,7 @@ const sign = crypto
 todo
 ```
 
-#### 3.2.3 Curl authentication
+##### 3.2.3 Curl authentication
 
 ```
 todo
