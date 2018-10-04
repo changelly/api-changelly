@@ -400,13 +400,13 @@ _Note on transaction processing:_ It's common situation when there are many tran
 
 All parameters for this method are optional.
 
-| Param    | Description                      |
-|----------|----------------------------------|
-| currency | currencyFrom to filter           |
-| address  | sender address to filter         |
-| extraId  | use if address needs any extraId |
-| limit    | how many records to retreive     |
-| offset   | records cursor                   |
+| Parameter | Description                      |
+|-----------|----------------------------------|
+| currency  | currencyFrom to filter           |
+| address   | sender address to filter         |
+| extraId   | use if address needs any extraId |
+| limit     | how many records to retreive     |
+| offset    | records cursor                   |
 
 
 Example request:
