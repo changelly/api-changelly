@@ -115,22 +115,22 @@ All requests must contain the following headers:
 Node.js example:
 
 ```js
-var crypto = require("crypto");
+const crypto = require("crypto");
 
-var message = {
+const message = {
   "jsonrpc": "2.0",
+  "id": "test",
   "method": "getMinAmount",
   "params": {
     "from": "ltc",
     "to": "eth"
   },
-  "id": 1
 };
 
-var sign = crypto
+const sign = crypto
    .createHmac('sha512', apiSecret)
-             .update(JSON.stringify(message))
-             .digest('hex');
+   .update(JSON.stringify(message))
+   .digest('hex');
 ```
 
 ##### 3.2.2 Postman authentication
