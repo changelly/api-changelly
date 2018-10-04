@@ -178,6 +178,8 @@ Example response:
 }
 ```
 
+_Note and warning_: getCurrencies returns a list of currently enabled currencies. We can disable and enable any currency at any time and the response list will reflect the change. Use `getCurrenciesFull` to get list of all available currencies along with description and state.
+
 #### 3.4 Minimum Exchangeable Amount
 
 To proceed with an exchange we need it to be larger than the certein amount. Use `getMinAmount` with a currency pair (`from`, `to`) to notify users of the minimum amount they need to send.
