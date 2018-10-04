@@ -23,7 +23,8 @@ The following methods are used to empower your service with Changelly exchange f
 
 1. Register and get the API key — [generate](https://changelly.com/developers#keys "https://changelly.com/developers#keys");
 2. Read the following documentation;
-3. Open a github issue if you have any questions;
+3. Open a 
+ub issue if you have any questions;
 4. You can also write to [pro@changelly.com](mailto:pro@changelly.com "pro@changelly.com").
 
 * * *
@@ -44,12 +45,12 @@ Your API exrta commission is included in a result of `getExchangeAmount` functio
 
 [Usage schema](https://changelly.com/content/faq/how_it_works.png)
 
-Implementation examples on [GitHub](https://github.com/changelly):
+Implementation examples on GitHub:
 
-*   [Node.js](https://github.com/changelly/api-changelly "https://github.com/changelly/api-changelly")
-*   [C#](https://github.com/changelly/changelly-examples/blob/master/c#/ChangellyExample.cs "https://github.com/changelly/changelly-examples/blob/master/c#/ChangellyExample.cs")
-*   [Python](https://github.com/changelly/changelly-examples/blob/master/python/example.py "https://github.com/changelly/changelly-examples/blob/master/python/example.py")
-*   [PHP](https://github.com/changelly/changelly-examples/blob/master/php/example.php "https://github.com/changelly/changelly-examples/blob/master/php/example.php")
+* [Node.js](https://github.com/changelly/api-changelly "https://github.com/changelly/api-changelly")
+* [C#](https://github.com/changelly/changelly-examples/blob/master/c#/ChangellyExample.cs "https://github.com/changelly/changelly-examples/blob/master/c#/ChangellyExample.cs")
+* [Python](https://github.com/changelly/changelly-examples/blob/master/python/example.py "https://github.com/changelly/changelly-examples/blob/master/python/example.py")
+* [PHP](https://github.com/changelly/changelly-examples/blob/master/php/example.php "https://github.com/changelly/changelly-examples/blob/master/php/example.php")
 
 Postman Collection and short description of API methods with examples: [https://api-docs.changelly.com](https://api-docs.changelly.com/ "https://api-docs.changelly.com/"). You will need to set up authentication to use Postman with our API.
 
