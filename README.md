@@ -23,7 +23,7 @@ The following methods are used to empower your service with Changelly exchange f
   - [Socket.io](#socketio)
 * [Support](#support)
   - [Dedicated Support-Line](#dedicated-support-line)
-  - [Operations History Online](#operations-history-online)
+  - [Online Transactions History](#online-transactions-history)
 
 Getting started
 -----------------
@@ -591,6 +591,6 @@ Also, send us a link to your service, confirm that you are ready to provide supp
 
 The support-line option is provided at the discretion of the Changelly's developer team.
 
-#### Operations History Online
+#### Online Transactions History
 
 You can check all the transactions with online stats on the [history page](https://changelly.com/history "https://changelly.com/history") in your personal account.
