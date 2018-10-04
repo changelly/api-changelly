@@ -412,7 +412,7 @@ Example request:
       "currency": "doge",
       "address": "<<payin address to search>>",
       "extraId": null,
-      "limit" 10,
+      "limit": 10,
       "offset" : 10
    }
 }
