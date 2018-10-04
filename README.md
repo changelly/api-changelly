@@ -154,7 +154,7 @@ Here is a small guide how to properly sign transaction with postman:
 
 ![Postman headers setup](https://i.imgur.com/xfwxoQY.png)
 
-4. Paste the following code to the `Pre-request` tab for the request. Fill up the apiKey and secret variables. Be very careful not to accidentally share your secret.
+4. Paste the following code to the `Pre-request Script` tab for the request. Fill up the apiKey and secret variables. Be very careful not to accidentally share your secret.
 
 ```js
 
