@@ -460,7 +460,7 @@ Example response:
       "payinExtraId": null,
       "payinHash": "txid4",
       "amountExpectedFrom": "0",
-      "payoutAddress": "<<payout",
+      "payoutAddress": "<<payout address>>",
       "payoutExtraId": null,
       "payoutHash": null,
       "refundHash": null,
