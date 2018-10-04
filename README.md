@@ -23,8 +23,7 @@ The following methods are used to empower your service with Changelly exchange f
 
 1. Register and get the API key — [generate](https://changelly.com/developers#keys "https://changelly.com/developers#keys");
 2. Read the following documentation;
-3. Open a 
-ub issue if you have any questions;
+3. Open an issue if you have any questions;
 4. You can also write to [pro@changelly.com](mailto:pro@changelly.com "pro@changelly.com").
 
 * * *
