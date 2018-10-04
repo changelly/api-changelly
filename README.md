@@ -26,7 +26,7 @@ The following methods are used to empower your service with Changelly exchange f
   - [Online Transactions History](#online-transactions-history)
 
 Getting started
------------------
+---------------
 
 1. Register and get the API key — [generate](https://changelly.com/developers#keys "https://changelly.com/developers#keys");
 2. Read the following documentation;
@@ -520,7 +520,7 @@ Example response:
 |finished|Coins had been successfully sent to the recipient address.|
 |failed|Transaction has failed. In most cases, the amount was less than the minimum. Please contact support providing transaction id.|
 |refunded|Exchange was failed and coins were refunded to user's wallet. The wallet address should be provided by user.|
-|overdue|We did not receive any payment since 36 hours from transaction creation|
+|overdue|We did not receive any payment since 36 hours from transaction creation.|
 
 #### Socket.io
 
