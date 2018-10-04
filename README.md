@@ -388,6 +388,17 @@ Also you can use `getTransactions` method to list all transactions those satisfy
 
 _Note on transaction processing:_ It's common situation when there are many transactions in `waiting` status when processing a payin. In that case transaction with `waiting` status and _the nearest_ amount is selected. And in case there are many - the earleast of them is selected. If the are no transaction in `waiting` status then new transaction is created automaticly.
 
+All parameters for this method are optional.
+
+| Param    | Description                      |
+|----------|----------------------------------|
+| currency | currencyFrom to filter           |
+| address  | sebder address to filter         |
+| extraId  | use if address needs any extraId |
+| limit    | how many records to retreive     |
+| offset   | records cursor                   |
+
+
 Example request:
 
 ```json
@@ -396,9 +407,9 @@ Example request:
    "id": "test",
    "method": "getTransactions",
    "params": {
-      "currency": "doge", // optional - currencyFrom to search
-      "address": "<<payin address to search>>", // optional - payinAddress to search
-      "extraId": null, //optional
+      "currency": "doge",
+      "address": "<<payin address to search>>",
+      "extraId": null,
       "limit" 10,
       "offset" : 10
    }
@@ -418,7 +429,7 @@ Example response:
       "moneySent": 0,
       "payinConfirmations": "0",
       "status": "waiting",
-      "currencyFrom": "doge", // filters by currencyFrom
+      "currencyFrom": "doge",
       "currencyTo": "ltc",
       "payinAddress": "<<payin address>>",
       "payinExtraId": null,
@@ -442,7 +453,7 @@ Example response:
       "status": "confirming",
       "currencyFrom": "btc",
       "currencyTo": "doge",
-      "payinAddress": "<<payin address>>", // filters by payinAddress
+      "payinAddress": "<<payin address>>",
       "payinExtraId": null,
       "payinHash": "txid4",
       "amountExpectedFrom": "0",
@@ -458,6 +469,8 @@ Example response:
    }]
 }
 ```
+
+Note: first
 
 #### 3.8 Getting Exchange Status
 
