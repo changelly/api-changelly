@@ -528,7 +528,7 @@ After successful `subscribe` you should be able to subscribe to `status`, `payin
 
 Example:
 
-```json
+```js
 socket.on("connect", function() {
   socket.emit("subscribe",
     {
