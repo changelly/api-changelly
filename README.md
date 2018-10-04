@@ -70,7 +70,7 @@ Here is simple use case of our exchange API:
 8.  API — call `createTransaction` method to get the LTC address to which the user should send his funds;
 9.  GUI — ask the user to send LTC coins to the address for exchange;
 10.  User sends LTC. We recive LTC and exchange it to ETH. We send the user ETH to the address that was submitted to `createTransaction` method;
-11.  Via [socket.io](http://socket.io/ "http://socket.io/") API functions you can get theuser's transaction status online;
+11.  Via [socket.io](http://socket.io/ "http://socket.io/") API functions you can get the user's transaction status online;
 12.  Via `getTransactions` you can get all the transactions history.
 
 #### 3.1 Protocol
