@@ -163,7 +163,7 @@ Example response:
 {
     "jsonrpc": "2.0",
     "id": "test",
-    "result": \[
+    "result": [
         "btc",
         "ltc",
         "eth",
@@ -173,7 +173,7 @@ Example response:
         "lsk",
         "xmr",
         "zec"
-    \]
+    ]
 }
 ```
 
@@ -242,7 +242,7 @@ To get rate for multiple currency pairs, you just have to pass array of argument
   "jsonrpc": "2.0",
   "id": "test",
   "method": "getExchangeAmount",
-  "params": \[{
+  "params": [{
     "from": "ltc",
     "to": "eth",
     "amount": "3.99"
@@ -250,7 +250,7 @@ To get rate for multiple currency pairs, you just have to pass array of argument
     "from": "dash",
     "to": "xmr",
     "amount": "3.99"
-  }\],
+  }],
 }
 ```
 
@@ -258,22 +258,22 @@ Example response:
 
 ```
 {
-    "jsonrpc": "2.0",
-    "id": "test",
-    "result": \[
-        {
-            "from": "ltc",
-            "to": "eth",
-            "amount": "3.99",
-            "result": "0.7259643909123907"
-        },
-        {
-            "from": "dash",
-            "to": "xmr",
-            "amount": "3.99",
-            "result": "7.08872889023993085566"
-        }
-    \]
+   "jsonrpc": "2.0",
+   "id": "test",
+   "result": [
+      {
+         "from": "ltc",
+         "to": "eth",
+         "amount": "3.99",
+         "result": "0.7259643909123907"
+      },
+      {
+         "from": "dash",
+         "to": "xmr",
+         "amount": "3.99",
+         "result": "7.08872889023993085566"
+      }
+   ]
 }
 ```
 
