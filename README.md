@@ -27,10 +27,10 @@ The following methods are used to empower your service with Changelly exchange f
 Getting started
 ---------------
 
-1. Register and get the API key — [generate](https://changelly.com/developers#keys "https://changelly.com/developers#keys");
+1. Register and get an API key — [generate](https://changelly.com/developers#keys "https://changelly.com/developers#keys");
 2. Read the following documentation;
 3. Open an issue if you have any questions;
-4. You can also write to [pro@changelly.com](mailto:pro@changelly.com "pro@changelly.com").
+4. You can also connect at [pro@changelly.com](mailto:pro@changelly.com "pro@changelly.com").
 
 * * *
 
@@ -39,14 +39,14 @@ Your API extra fee
 
 After setting up an API key you may want to set up your API extra fee.
 
-For example, you could choose to take a 0.5% fee (as an example, though we can set up any commission you want). We always take our 0.5%, so in this case your users would then have a total commission of 1%.
+For example, you may choose to charge a 0.5% fee (we can set up any commission you want). Our fee is fixed at 0.5%. Thus, your users should pay a 1% commission in total.
 
 To set up an extra commission, [please email us](mailto:pro@changelly.com "pro@changelly.com") with a link to your service.
 
 Your API exrta commission is included in a result of `getExchangeAmount` function call. All fees are always in output currency.
 
 Usage
--------
+-----
 
 [Usage schema](https://changelly.com/content/faq/how_it_works.png)
 
@@ -59,7 +59,7 @@ Implementation examples on GitHub:
 
 Postman Collection and short description of API methods with examples: [https://api-docs.changelly.com](https://api-docs.changelly.com/ "https://api-docs.changelly.com/"). You will need to set up authentication to use Postman with our API.
 
-API URL: **[https://api.changelly.com](https://api.changelly.com "https://api.changelly.com")**
+API URL: `https://api.changelly.com`
 
 #### Use Case
 
@@ -68,15 +68,15 @@ Here is simple use case of our exchange API:
 1.  API — get available at the current moment list of currencies with `getCurrencies` or `getCurrenciesFull` method;
 2.  GUI — ask user for currency pair he wants to exchange. For example, it can be LTC (Litecoin) to ETH (Ethereum);
 3.  API — get minimum exchangeable amount for selected currency pair with `getMinAmount` method;
-4.  GUI — ask the user for the amount to exchange;
+4.  GUI — ask user for the amount to exchange;
 5.  API — call `getExchangeAmount` method to get estimated ETH amount after exchange;
-6.  GUI — show estimate amount for user and ask confirmation;
-7.  GUI — ask the user for it's wallet address to send coins after exchange;
-8.  API — call `createTransaction` method to get the LTC address to which the user should send his funds;
-9.  GUI — ask the user to send LTC coins to the address for exchange;
-10.  User sends LTC. We recive LTC and exchange it to ETH. We send the user ETH to the address that was submitted to `createTransaction` method;
+6.  GUI — show an estimated amount to user and ask for confirmation;
+7.  GUI — ask user for his wallet address to send coins after exchange;
+8.  API — call `createTransaction` method to get the LTC address to which user should send his funds;
+9.  GUI — ask user to send LTC coins to the address for exchange;
+10.  User sends LTC. We receive LTC and exchange it for ETH. We send ETH to the address that was submitted to `createTransaction` method;
 11.  Via [socket.io](http://socket.io/ "http://socket.io/") API functions you can get the user's transaction status online;
-12.  Via `getTransactions` you can get all the transactions history.
+12.  Via `getTransactions` method you can get all the transactions history.
 
 #### Protocol
 
@@ -174,7 +174,7 @@ postman.setEnvironmentVariable('sign', sign)
 
 #### Currency List
 
-Commands `getCurrencies` and `getCurrenciesFull` will return you the currency list available for an exchange. Check the list of available currencies at [Supported currencies page](https://changelly.com/supported-currencies "https://changelly.com/supported-currencies") before you start. Example request:
+Commands `getCurrencies` and `getCurrenciesFull` will return you the currency list available for exchange. Check the list of available currencies at [Supported currencies page](https://changelly.com/supported-currencies "https://changelly.com/supported-currencies") before you start. Example request:
 
 ```json
 {
@@ -209,7 +209,7 @@ _Note and warning_: getCurrencies returns a list of currently enabled currencies
 
 #### Minimum Exchangable Amount
 
-To proceed with an exchange we need it to be larger than the certein amount. Use `getMinAmount` with a currency pair (`from`, `to`) to notify users of the minimum amount they need to send.
+To proceed with exchange we need it to be larger than the certain amount. Use `getMinAmount` with a currency pair (`from`, `to`) to notify users of the minimum amount they need to send.
 
 Example:
 
@@ -239,7 +239,7 @@ Example response:
 
 #### Estimated Exchange Amount
 
-You can show to users estimated amount of coins they receive as a result of exchange using `getExchangeAmount`. You need to provide the request with currency pair (`from`, `to`) and the `amount` user is going to exchange. Estimated `result` property includes changelly plus partner extra fee. All fees are always in output currency. Your API exrta fee will decrease the estimated `result`.
+You can show users the estimated amount of coins they receive as a result of exchange using `getExchangeAmount`. You need to provide the request with currency pair (`from`, `to`) and the `amount` user is going to exchange. Estimated `result` property includes Changelly plus partner extra fee. All fees are always in output currency. Your API extra fee will decrease the estimated `result`.
 
 Example:
 
@@ -310,18 +310,18 @@ Example response:
 
 #### Generating Transaction
 
-Aftter a successfull call of `createTransaction` method you get an unique id to track the transaction status and a payin address for a user to send money to.
+After a successful call of `createTransaction` method you get a unique id to track the transaction status and a payin address for user to send money to.
 
 `createTransaction`, once get called, creates a pair of deposit and payout address. If somebody sends coins to the same address twice, without second call to createTransaction, the coins will be exchanged and sent to the user's payout address.
 
 | Property | Required or optional | Description |
 |----------|----------------------|-------------|
 | from     | required             | currency to exchange from |
-| to       | required             | currency to exchange to |
+| to       | required             | currency to exchange for |
 | address  | required             | recipient address|
 | extraId  | optional             | property for addresses of currencies that use additional ID for transaction processing (XRP, STEEM/SBD, XLM, DCT, XEM) |
-| refundAddress        | optional | used in case of a refund |
-| refundExtraIdAddress | optional | same as of extraId but for refundAddress|
+| refundAddress        | optional | used in case of refund |
+| refundExtraId | optional | same as of `extraId` but for `refundAddress`|
 
 Example request:
 
@@ -415,9 +415,9 @@ _Note_: `amountTo: 0` is expected. `amountTo` will have non-zero value when tran
 
 To identify transaction the id from the `createTransaction` method is used.
 
-Also you can use `getTransactions` method to list all transactions those satisfy request params.
+Also you can use `getTransactions` method to list all transactions that satisfy request params.
 
-_Note on transaction processing:_ It's common situation when there are many transactions in `waiting` status when processing a payin. In that case transaction with `waiting` status and _the nearest_ amount is selected. And in case there are many - the earleast of them is selected. If the are no transaction in `waiting` status then new transaction is created automaticly.
+_Note on transaction processing:_ It's common situation when there are many transactions in `waiting` status when processing payin. In this case transaction with `waiting` status and _the nearest_ amount is selected. And in case there are many - the earleast of them is selected. If the are no transactions in `waiting` status then new transaction is created automatically.
 
 All parameters for this method are optional.
 
@@ -505,7 +505,7 @@ Note: first
 
 #### Getting Exchange Status
 
-With the transaction ID, obtained from createTransaction call, you can get exchange status to notify your user orto provide additional support.
+With the transaction ID, obtained from createTransaction call, you can get exchange status to notify your user or provide additional support.
 
 Example:
 
@@ -535,12 +535,12 @@ Example response:
 |**Status**|**Description**|
 |----------|---------------|
 |waiting|Transaction is waiting for user to send coins.|
-|confirming|We have received payin and waiting for certain amount of confirmations depending of incoming currency.|
-|exchanging|Your payment had been confirmed and being exchanged via our partner.|
-|sending|Coins is sending to the recipient address.|
-|finished|Coins had been successfully sent to the recipient address.|
-|failed|Transaction has failed. In most cases, the amount was less than the minimum. Please contact support providing transaction id.|
-|refunded|Exchange was failed and coins were refunded to user's wallet. The wallet address should be provided by user.|
+|confirming|We have received payin and are waiting for certain amount of confirmations depending of incoming currency.|
+|exchanging|Payment was confirmed and is being exchanged.|
+|sending|Coins are being sent to the recipient address.|
+|finished|Coins were successfully sent to the recipient address.|
+|failed|Transaction has failed. In most cases, the amount was less than the minimum. Please contact support and provide a transaction id.|
+|refunded|Exchange failed and coins were refunded to user's wallet. The wallet address should be provided by user.|
 |overdue|We did not receive any payment since 36 hours from transaction creation.|
 
 #### Socket.io
@@ -552,7 +552,13 @@ As well as JSON RPC, the API provides [socket.io](http://socket.io/ "http://sock
 |sign|message object signed with your `secret` using hmac sha512 method|
 |message|logon message object to sign|
 
-After successful `subscribe` you should be able to subscribe to `status`, `payin` and `payout` events. `Status` event fires when any of transaction properties are changed. `Payin` event fires when the payin gets confirmed. `Payout` event fires when transaction became finished: on success (status finished) or fail (status failed).
+Events:
+
+|**Event**|**Trigger condition**|
+|---------|---------------|
+|status|any of transaction properties are changed|
+|payin|payin status gets `confirmed`|
+|payout|transaction status became `finished` or `failed`|
 
 Example:
 
@@ -599,19 +605,19 @@ Event data example:
 Support
 ---------
 
-#### Dedicated Support-Line
+#### Dedicated Support Line
 
-Changelly provides two options for support. Please choose your support-line and inform us at [pro@changelly.com](mailto:pro@changelly.com "pro@changelly.com"):
+Changelly provides two options for support. Please choose your support line and inform us at [pro@changelly.com](mailto:pro@changelly.com "pro@changelly.com"):
 
 — You just redirect users to our support line;
 
 — You provide the first line support from your side and send your tickets directly to our dedicated email address. These tickets are forwarded strictly to our second level support team. It will be assigned the highest priority. Please don't make our email public.
 
-Inform us in case the dedicated support-line is needed. Feel free to request it at [pro@changelly.com](mailto:pro@changelly.com "pro@changelly.com").
+Inform us in case the dedicated support line is needed. Feel free to request it at [pro@changelly.com](mailto:pro@changelly.com "pro@changelly.com").
 
-Also, send us a link to your service, confirm that you are ready to provide support from your side and you won’t share that email with your clients.
+Also, send us a link to your service, confirm that you are ready to provide support from your side and you won’t share this email with your clients.
 
-The support-line option is provided at the discretion of the Changelly's developer team.
+The support line option is provided at the discretion of the Changelly's developer team.
 
 #### Online Transactions History
 
