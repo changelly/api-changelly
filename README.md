@@ -535,7 +535,7 @@ Example response:
 
 |**Status**|**Description**|
 |----------|---------------|
-|waiting|Transaction is waiting for user to send coins.|
+|waiting|Transaction is waiting for an incoming payment.|
 |confirming|We have received payin and are waiting for certain amount of confirmations depending of incoming currency.|
 |exchanging|Payment was confirmed and is being exchanged.|
 |sending|Coins are being sent to the recipient address.|
