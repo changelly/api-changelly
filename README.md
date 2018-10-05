@@ -108,8 +108,6 @@ Example response:
 
 #### Authentication
 
-##### Node.js authentication
-
 All requests must contain the following headers:
 
 | **Header** | **Description** |
@@ -117,7 +115,10 @@ All requests must contain the following headers:
 | api-key    | your api key    |
 | sign       | the query's serialized body signed by your key's "secret" according to the HMAC-SHA512 method |
 
-Node.js example:
+
+##### Node.js authentication
+
+Example of how to sign a request with node.js `crypto` module:
 
 ```js
 const crypto = require("crypto");
