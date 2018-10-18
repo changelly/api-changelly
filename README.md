@@ -106,6 +106,8 @@ Example response:
 }
 ```
 
+Id used is a custom ID generated at the client side to distinguish responses. You may use any value you want.
+
 #### Authentication
 
 All requests must contain the following headers:
@@ -319,10 +321,10 @@ After a successful call of `createTransaction` method you get a unique id to tra
 |----------|----------------------|-------------|
 | from     | required             | currency to exchange from |
 | to       | required             | currency to exchange for |
-| address  | required             | recipient address|
+| address  | required             | recipient address |
 | extraId  | optional             | property for addresses of currencies that use additional ID for transaction processing (XRP, STEEM/SBD, XLM, DCT, XEM) |
-| refundAddress        | optional | used in case of refund |
-| refundExtraId | optional | same as of `extraId` but for `refundAddress`|
+| refundAddress | optional | used in case of refund |
+| refundExtraId | optional | same as of `extraId` but for `refundAddress` |
 
 Example request:
 
@@ -354,6 +356,7 @@ Example response:
       "payinExtraId": null,
       "payoutExtraId": null,
       "amountExpectedFrom": 1,
+      "amountExpectedTo": 3.99,
       "status": "new",
       "currencyFrom": "eth",
       "currencyTo": "ltc",
@@ -364,6 +367,25 @@ Example response:
    }
 }
 ```
+
+Example response fields:
+
+| Property | Description |
+|----------|-------------|
+| id       | Transaction ID. Could be used in `getStatus` method |
+| apiExtraFee | Your API Extra fee in percents |
+| changellyFee | Changelly fee in percents |
+| payinAddress | Address for a user to send coins to |
+| payinExtraId | `ExtraId` for `payinAddress` in case it is required |
+| payoutAddress | Address where the exchange result will be sent to |
+| payoutExtraId | `ExtraId` for `payoutAddress` in case it is required |
+| amountExpectedFrom | `amount` from `createTransaction` |
+| amountExpectedTo | `result` from `getExchangeAmount` at the moment of `createTransaction` |
+| status | Transaction status |
+| currencyTo | Ticker of input currency |
+| currencyFrom | Ticker of output currency |
+| amountTo | Real amount after the exchange that was sent to `payoutAddress` |
+| createdAt | Point of time when the transaction was created |
 
 Example 2 request:
 
