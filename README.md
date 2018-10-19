@@ -565,6 +565,7 @@ Example response:
 |failed|Transaction has failed. In most cases, the amount was less than the minimum. Please contact support and provide a transaction id.|
 |refunded|Exchange failed and coins were refunded to user's wallet. The wallet address should be provided by user.|
 |overdue|We did not receive any payment since 36 hours from transaction creation.|
+|hold|Due to AML/KYC procedure, exchange may be delayed|
 
 #### Socket.io
 
