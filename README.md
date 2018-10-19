@@ -112,9 +112,9 @@ Id used is a custom ID generated at the client side to distinguish responses. Yo
 
 All requests must contain the following headers:
 
-| **Header** | **Description** |
-|------------|-----------------|
-| api-key    | your api key    |
+| **Header** | **Description**                                                                               |
+|------------|-----------------------------------------------------------------------------------------------|
+| api-key    | your api key                                                                                  |
 | sign       | the query's serialized body signed by your key's "secret" according to the HMAC-SHA512 method |
 
 
@@ -370,22 +370,22 @@ Example response:
 
 Example response fields:
 
-| Property | Description |
-|----------|-------------|
-| id       | Transaction ID. Could be used in `getStatus` method |
-| apiExtraFee | Your API Extra fee in percents |
-| changellyFee | Changelly fee in percents |
-| payinAddress | Address for a user to send coins to |
-| payinExtraId | `ExtraId` for `payinAddress` in case it is required |
-| payoutAddress | Address where the exchange result will be sent to |
-| payoutExtraId | `ExtraId` for `payoutAddress` in case it is required |
-| amountExpectedFrom | `amount` from `createTransaction` |
-| amountExpectedTo | `result` from `getExchangeAmount` at the moment of `createTransaction` |
-| status | Transaction status |
-| currencyTo | Ticker of input currency |
-| currencyFrom | Ticker of output currency |
-| amountTo | Real amount after the exchange that was sent to `payoutAddress` |
-| createdAt | Point of time when the transaction was created |
+| Property           | Description                                                            |
+|--------------------|------------------------------------------------------------------------|
+| id                 | Transaction ID. Could be used in `getStatus` method                    |
+| apiExtraFee        | Your API Extra fee in percents                                         |
+| changellyFee       | Changelly fee in percents                                              |
+| payinAddress       | Address for a user to send coins to                                    |
+| payinExtraId       | `ExtraId` for `payinAddress` in case it is required                    |
+| payoutAddress      | Address where the exchange result will be sent to                      |
+| payoutExtraId      | `ExtraId` for `payoutAddress` in case it is required                   |
+| amountExpectedFrom | `amount` from `createTransaction`                                      |
+| amountExpectedTo   | `result` from `getExchangeAmount` at the moment of `createTransaction` |
+| status             | Transaction status                                                     |
+| currencyTo         | Ticker of input currency                                               |
+| currencyFrom       | Ticker of output currency                                              |
+| amountTo           | Real amount after the exchange that was sent to `payoutAddress`        |
+| createdAt          | Point of time when the transaction was created                         |
 
 Example 2 request:
 
@@ -571,18 +571,18 @@ Example response:
 
 As well as JSON RPC, the API provides [socket.io](http://socket.io/ "http://socket.io/") interface for receiving exchange status. The subscription should be signed and have a valid logon message.
 
-|**Key**|**Description**|
-|-------|---------------|
-|sign|message object signed with your `secret` using hmac sha512 method|
-|message|logon message object to sign|
+| **Key** | **Description**                                                   |
+|---------|-------------------------------------------------------------------|
+| sign    | message object signed with your `secret` using hmac sha512 method |
+| message | logon message object to sign                                      |
 
 Events:
 
-|**Event**|**Trigger condition**|
-|---------|---------------|
-|status|any of transaction properties are changed|
-|payin|payin status gets `confirmed`|
-|payout|transaction status became `finished` or `failed`|
+| **Event** | **Trigger condition**                            |
+|-----------|--------------------------------------------------|
+| status    | any of transaction properties are changed        |
+| payin     | payin status gets `confirmed`                    |
+| payout    | transaction status became `finished` or `failed` |
 
 Example:
 
