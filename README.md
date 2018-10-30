@@ -60,6 +60,7 @@ Implementation examples on GitHub:
 Postman Collection and short description of API methods with examples: [https://api-docs.changelly.com](https://api-docs.changelly.com/ "https://api-docs.changelly.com/"). You will need to set up authentication to use Postman with our API.
 
 API URL: `https://api.changelly.com`
+SOCKET URL: `https://socket.changelly.com`
 
 #### Use Case
 
