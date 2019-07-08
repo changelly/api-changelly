@@ -362,7 +362,7 @@ After a successful call of `createTransaction` method you get a unique id to tra
 | from     | required             | currency to exchange from |
 | to       | required             | currency to exchange for |
 | address  | required             | recipient address |
-| extraId  | optional             | property for addresses of currencies that use additional ID for transaction processing (XRP, STEEM/SBD, XLM, DCT, XEM) |
+| extraId  | optional             | property for addresses of currencies that use additional ID for transaction processing (XRP, XLM, EOS, IGNIS, BNB, XMR, ARDOR, DCT, XEM) |
 | refundAddress | optional | used in case of refund |
 | refundExtraId | optional | same as of `extraId` but for `refundAddress` |
 
@@ -606,6 +606,7 @@ Example response:
 |refunded|Exchange failed and coins were refunded to user's wallet. The wallet address should be provided by user.|
 |overdue|We did not receive any payment since 36 hours from transaction creation.|
 |hold|Due to AML/KYC procedure, exchange may be delayed|
+|expired|In case payin was not sent within the indicated timeframe|
 
 ### **Fixed Rate Methods**
 
@@ -667,7 +668,7 @@ Response example:
 ```
 * minFrom, minTo, maxFrom, maxTo - denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially
 * “Max” and “min” params here denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially
-* `getFixRate` returns `rateId` that can be used for 5 minutes. This time should be enough for user to initiate the exchange
+* `getFixRate` returns `rateId` that can be used for 2 minutes. This time should be enough for user to initiate the exchange
 * `id` has to be stored somewhere and will be used as `rateId` param while calling 
 * Expired `rateId` cannot be used for creation of the fixed-rate transaction
 * `result` is a parameter that you can show to the user as the exchange rate
@@ -741,10 +742,12 @@ Example request fields:
 | from | required | currency to exchange from |
 | to | required | currency to exchange for |
 | address | required | recipient address |
+| refundAddress | optional | used in case of refund |
 | amountFrom | required | amount user is going to exchange |
 | amountTo | required | amount user wants to receive |
 | rateId | required | that you get from getFixRate/getFixRateBulk requests |
-| refundAddress | required | used in case of refund |
+| extraId  | optional             | property for addresses of currencies that use additional ID for transaction processing (XRP, XLM, EOS, IGNIS, BNB, XMR, ARDOD, DCT, XEM) |
+| refundExtraId | optional | same as of `extraId` but for `refundAddress` |
 
 Example of request with providing the sum user wants to send:
 
