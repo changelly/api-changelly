@@ -746,7 +746,7 @@ Example request fields:
 | amountFrom | required | amount user is going to exchange |
 | amountTo | required | amount user wants to receive |
 | rateId | required | that you get from getFixRate/getFixRateBulk requests |
-| extraId  | optional             | property for addresses of currencies that use additional ID for transaction processing (XRP, XLM, EOS, IGNIS, BNB, XMR, ARDOD, DCT, XEM) |
+| extraId  | optional             | property for addresses of currencies that use additional ID for transaction processing (XRP, XLM, EOS, IGNIS, BNB, XMR, ARDOR, DCT, XEM) |
 | refundExtraId | optional | same as of `extraId` but for `refundAddress` |
 
 Example of request with providing the sum user wants to send:
