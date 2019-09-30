@@ -34,7 +34,7 @@ The following methods are used to empower your service with Changelly exchange f
 
 1. Please read for better understanding [https://medium.com/@Changelly/changelly-api-to-robust-your-crypto-business-25f5030bc803](https://medium.com/@Changelly/changelly-api-to-robust-your-crypto-business-25f5030bc803).
 2. Welcome to check these articles on implementation examples in the other crypto wallets: [Trezor](https://medium.com/@Changelly/changelly-api-trezor-wallet-514662179fd8), [BRD](https://medium.com/@Changelly/the-coolest-feature-of-brd-a-short-how-to-use-guide-8e9805c49019), [Coinomi](https://medium.com/@Changelly/exchange-crypto-coinomi-5b7a7b7bac54), [Ginco]( https://medium.com/gincowallet/changelly-is-now-available-on-ginco-dfc79c59cd43), [Huobi](https://medium.com/@Changelly/huobi-wallet-guide-how-to-exchange-crypto-ee11e38a1eec), [Jelurida](https://medium.com/@Changelly/changelly-partnered-jelurida-618089e27328)
-3. [The usage scheme could be useful for you.](https://old.changelly.com/content/faq/how_it_works.png)
+3. [The usage scheme could be useful for you.](https://imgur.com/yngIkiv)
 
 ### **Fixed Rate Exchange Feature**
 
@@ -65,7 +65,7 @@ Your API extra commission is included in a result of `getExchangeAmount` functio
 Usage
 -----
 
-[Usage schema](https://changelly.com/content/faq/how_it_works.png)
+[Usage schema](https://imgur.com/yngIkiv)
 
 Implementation examples on GitHub:
 
@@ -855,8 +855,8 @@ You can get logo of each currency with
 2. Due to this policy, users’ transactions may be held for KYC procedures;
 3. That is why, before users start an exchange via our API, please, notify them about the possibility of holding the transactions for KYC procedures;
 4. You may want to use the following text: “Exchange services provided by Changelly. By clicking “Accept”, I acknowledge and understand that my transaction may trigger AML/KYC verification according to Changelly AML/KYC”;
-5. The text may appear in a form of a pop-up window, you are welcome to check the examples of a [desktop version notification](/content/faq/ark-kyc-desktop.jpg) and a [mobile version notification](/content/faq/ark-kyc-mobile.jpg);
-6. We also propose you to notify the users when their transaction is held for KYC, using API ‘Hold’ status. You are welcome to check [the example](/content/faq/Hold-Screenshot.png) of such notification.
+5. The text may appear in a form of a pop-up window, you are welcome to check the examples of a [desktop version notification](https://imgur.com/v0BDpk7) and a [mobile version notification](https://imgur.com/P540cbW);
+6. We also propose you to notify the users when their transaction is held for KYC, using API ‘Hold’ status. You are welcome to check [the example](https://imgur.com/z5mK4yp) of such notification.
 
 ### **Support**
 
