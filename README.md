@@ -610,8 +610,7 @@ Example response:
 
 ### **Fixed Rate Methods**
 
-For fixed-rates we’ve added three methods in our API: `getFixRate`, `
-Amount` and `createFixTransaction`.
+For fixed-rates we’ve added three methods in our API: `getFixRate`, `getFixRateForAmount` and `createFixTransaction`.
 
 #### **Getting the Fixed Rate**
 
@@ -718,6 +717,8 @@ Response example:
     {
       "id": "f4dd43107876ad5b88955a0b362645ce960a87c0fdb7ab540ed635799230107e830d3f",
       "rate": "3237.50839254",
+      "from": "eth",
+      "to": "wax",
       "from": "eth",
       "to": "wax",
       "amountFrom": "2.25",
