@@ -610,7 +610,7 @@ Example response:
 
 ### **Fixed Rate Methods**
 
-For fixed-rates we’ve added two methods in our API: `getFixRate` and `createFixTransaction`.
+For fixed-rates we’ve added three methods in our API: `getFixRate`, `getFixRateForAmount` and `createFixTransaction`.
 
 #### **Getting the Fixed Rate**
 
@@ -668,12 +668,71 @@ Response example:
 ```
 * minFrom, minTo, maxFrom, maxTo - denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially
 * “Max” and “min” params here denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially
-* `getFixRate` returns `rateId` that can be used for 2 minutes. This time should be enough for user to initiate the exchange
+* fix rate methods return `rateId` that can be used for 2 minutes. This time should be enough for user to initiate the exchange
 * `id` has to be stored somewhere and will be used as `rateId` param while calling 
 * Expired `rateId` cannot be used for creation of the fixed-rate transaction
-* `result` is a parameter that you can show to the user as the exchange rate
-* Important: users shall send the exact amount of funds which were specified as a pay-in amount. In case, users send different sum - the transaction would be automatically refunded
+* `result` or `rate` is a parameter that you can show to the user as the exchange rate
+* Important: users shall send the exact amount of funds which were specified as a pay-in amount. In case, users send different sum - the transaction can be automatically refunded
 * Important: for fixed rate transactions to process successfully, refund address must be presented as well as refund extraId if needed
+
+`getFixRateForAmount` returnes a fixed exchange result of amount provided. It needs an additional parameter `amountFrom` user is going to exchange and returns `amountTo` user receive.
+
+Request params example:
+
+```json
+{
+  "id": "test",
+  "jsonrpc": "2.0",
+  "method": "getFixRate",
+  "params": [
+    {
+      "from": "eth",
+      "to": "btc",
+      "amountFrom": "5.2"
+    },
+    {
+      "from": "eth",
+      "to": "wax",
+      "amountFrom": "2.25"
+    }
+  ]
+}
+```
+
+Response example:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": "test",
+  "result": [
+    {
+      "id": "f4dd43106d63b65b88955a0b362645ce960987c7ffb7a8480dd32e799431177f",
+      "rate": "0.02556948",
+      "from": "eth",
+      "to": "btc",
+      "maxFrom": "50.000000000000000000",
+      "maxTo": "1.27847400",
+      "minFrom": "0.148414210000000000",
+      "minTo": "0.00379488",
+      "amountFrom": "5.2",
+      "amountTo": "0.132961296"
+    },
+    {
+      "id": "f4dd43107876ad5b88955a0b362645ce960a87c0fdb7ab540ed635799230107e830d3f",
+      "result": "3237.50839254",
+      "from": "eth",
+      "to": "wax",
+      "maxFrom": "27.799155735744717075",
+      "maxTo": "89999.99999999",
+      "minFrom": "0.187060000000000000",
+      "minTo": "605.60831991",
+      "amountFrom": "2.25",
+      "amountTo": "7284.393883215"
+    }
+  ]
+}
+```
 
 `getFixRateBulk` gives rate for all available currency pairs.
 
