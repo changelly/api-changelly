@@ -610,7 +610,8 @@ Example response:
 
 ### **Fixed Rate Methods**
 
-For fixed-rates we’ve added three methods in our API: `getFixRate`, `getFixRateForAmount` and `createFixTransaction`.
+For fixed-rates we’ve added three methods in our API: `getFixRate`, `
+Amount` and `createFixTransaction`.
 
 #### **Getting the Fixed Rate**
 
@@ -683,7 +684,7 @@ Request params example:
 {
   "id": "test",
   "jsonrpc": "2.0",
-  "method": "getFixRate",
+  "method": "getFixRateForAmount",
   "params": [
     {
       "from": "eth",
