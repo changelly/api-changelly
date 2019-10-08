@@ -610,7 +610,7 @@ Example response:
 
 ### **Fixed Rate Methods**
 
-For fixed-rates we’ve added three methods in our API: `getFixRate`, `getFixRateFrom` and `createFixTransaction`.
+For fixed-rates we’ve added three methods in our API: `getFixRate`, `getFixRateForAmount` and `createFixTransaction`.
 
 #### **Getting the Fixed Rate**
 
@@ -675,7 +675,7 @@ Response example:
 * Important: users shall send the exact amount of funds which were specified as a pay-in amount. In case, users send different sum - the transaction can be automatically refunded
 * Important: for fixed rate transactions to process successfully, refund address must be presented as well as refund extraId if needed
 
-`getFixRateFrom` returnes a fixed exchange result of amount provided. It needs an additional parameter `amountFrom` user is going to exchange and returns `amountTo` user receive.
+`getFixRateForAmount` returnes a fixed exchange result of amount provided. It needs an additional parameter `amountFrom` user is going to exchange and returns `amountTo` user receive.
 
 Request params example:
 
