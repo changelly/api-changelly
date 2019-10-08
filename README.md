@@ -683,7 +683,7 @@ Request params example:
 {
   "id": "test",
   "jsonrpc": "2.0",
-  "method": "getFixRate",
+  "method": "getFixRateForAmount",
   "params": [
     {
       "from": "eth",
@@ -711,22 +711,14 @@ Response example:
       "rate": "0.02556948",
       "from": "eth",
       "to": "btc",
-      "maxFrom": "50.000000000000000000",
-      "maxTo": "1.27847400",
-      "minFrom": "0.148414210000000000",
-      "minTo": "0.00379488",
       "amountFrom": "5.2",
       "amountTo": "0.132961296"
     },
     {
       "id": "f4dd43107876ad5b88955a0b362645ce960a87c0fdb7ab540ed635799230107e830d3f",
-      "result": "3237.50839254",
+      "rate": "3237.50839254",
       "from": "eth",
       "to": "wax",
-      "maxFrom": "27.799155735744717075",
-      "maxTo": "89999.99999999",
-      "minFrom": "0.187060000000000000",
-      "minTo": "605.60831991",
       "amountFrom": "2.25",
       "amountTo": "7284.393883215"
     }
@@ -899,7 +891,7 @@ Response:
     "payoutAddress": "0xeee03************Cf5E3DFc214",
     "createdAt": "2019-05-28T13:22:17.000Z"
   }
-}
+
 ```
 
 ### **Currencies logo**
