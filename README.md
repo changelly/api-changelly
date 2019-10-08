@@ -719,8 +719,6 @@ Response example:
       "rate": "3237.50839254",
       "from": "eth",
       "to": "wax",
-      "from": "eth",
-      "to": "wax",
       "amountFrom": "2.25",
       "amountTo": "7284.393883215"
     }
