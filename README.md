@@ -488,6 +488,7 @@ All parameters for this method are optional.
 |-----------|----------------------------------|
 | currency  | currencyFrom to filter           |
 | address   | sender address to filter         |
+| payoutAddress   | recipient address to filter         |
 | extraId   | use if address needs any extraId |
 | limit     | how many records to retreive     |
 | offset    | records cursor                   |
