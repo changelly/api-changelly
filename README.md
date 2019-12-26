@@ -674,6 +674,7 @@ Response example:
 * `result` or `rate` is a parameter that you can show to the user as the exchange rate
 * Important: users shall send the exact amount of funds which were specified as a pay-in amount. In case, users send different sum - the transaction can be automatically refunded
 * Important: for fixed rate transactions to process successfully, refund address must be presented as well as refund extraId if needed
+
 `getFixRateForAmount` returns a fixed exchange result of amount provided. It needs an additional parameter `amountFrom` user is going to exchange and returns `amountTo` user receive.
 
 First of all, you need to be sure about your amount is greater or equal than minimal amount and less or equal than maximal amount.
