@@ -668,7 +668,7 @@ Response example:
 ```
 * minFrom, minTo, maxFrom, maxTo - denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially
 * “Max” and “min” params here denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially
-* fix rate methods return `rateId` that can be used for 1.5 minutes or 30 sec in `getFixRateForAmount`. This time should be enough for user to initiate the exchange
+* fix rate methods return `rateId` that can be used for 1 minute or 30 sec in `getFixRateForAmount`. This time should be enough for user to initiate the exchange
 * `id` has to be stored somewhere and will be used as `rateId` param while calling 
 * Expired `rateId` cannot be used for creation of the fixed-rate transaction
 * `result` or `rate` is a parameter that you can show to the user as the exchange rate
