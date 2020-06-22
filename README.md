@@ -56,7 +56,7 @@ The following methods are used to empower your service with Changelly exchange f
 
 After setting up an API key you may want to set up your API extra fee.
 
-For example, you may choose to charge a 0.5% fee (we can set up any commission you want). Our fee is fixed at 0.5%. Thus, your users should pay a 1% commission in total.
+For example, you may choose to charge a 0.5% fee on top of Changelly exchange fee.
 
 To set up an extra commission, [please email us](mailto:pro@changelly.com "pro@changelly.com") with a link to your service.
 
@@ -669,7 +669,7 @@ Response example:
 * minFrom, minTo, maxFrom, maxTo - denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially
 * “Max” and “min” params here denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially
 * fix rate methods return `rateId` that can be used for 1 minute or 30 sec in `getFixRateForAmount`. This time should be enough for user to initiate the exchange
-* `id` has to be stored somewhere and will be used as `rateId` param while calling 
+* `id` has to be stored somewhere and will be used as `rateId` param while calling
 * Expired `rateId` cannot be used for creation of the fixed-rate transaction
 * `result` or `rate` is a parameter that you can show to the user as the exchange rate
 * Important: users shall send the exact amount of funds which were specified as a pay-in amount. In case, users send different sum - the transaction can be automatically refunded
