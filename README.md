@@ -817,6 +817,7 @@ Response example:
 ```
 
 `getFixRateBulk` gives rate for all available currency pairs.
+`pairs` param is optional, you can send request without it.
 
 Request params example:
 
@@ -824,6 +825,7 @@ Request params example:
 {
   "jsonrpc": "2.0",
   "method": "getFixRateBulk",
+  "params":{"pairs": [["btc", "eth"], ["btc", "etc"]]},
   "id": "1"
 }
 ```
