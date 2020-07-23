@@ -816,59 +816,9 @@ Response example:
 }
 ```
 
-`getFixRateBulk` gives rate for all available currency pairs.
-`pairs` param is optional, you can send request without it.
-
-Request params example:
-
-```json
-{
-  "jsonrpc": "2.0",
-  "method": "getFixRateBulk",
-  "params":{"pairs": [["btc", "eth"], ["btc", "etc"]]},
-  "id": "1"
-}
-```
-
-Response:
-
-```json
-{
-  "jsonrpc": "2.0",
-  "id": "1",
-  "result": [
-    {
-      "from": "btc",
-      "to": "eth",
-      "result": "38.7971640000000049875",
-      "max": "1.28875399",
-      "maxFrom": "1.28875399",
-      "maxTo": "49.999999905684366427",
-      "min": "0.00121000",
-      "minFrom": "0.00121000",
-      "minTo": "0.046944568440000007",
-      "id": "f3dd48106a*********ce940584c6fcb7ab5e13d6227b933e177781083b77aa904a37f602e47a"
-    },
-    {
-      "from": "btc",
-      "to": "etc",
-      "result": "1236.4033500000000981",
-      "max": "1.13231656",
-      "maxFrom": "1.13231656",
-      "maxTo": "1399.999988044476111080",
-      "min": "0.00121000",
-      "minFrom": "0.00121000",
-      "minTo": "1.496048053500000119",
-      "id": "f3dd48106a63b********ce940584c6fcb7a9540ed73578923b107281083b77aa904a33f602e2"
-    }
-  ]
-}
-```
-
-
 #### **Creating a fixed rate transaction**
 
-* Using `createFixTransaction` you need to provide the request with currency pair (`from`, `to`), recipient address, refund address (used in case of refund), rateID for this pair (that you get in getFixRate/getFixRateBulk requests) and the `amountFrom` user is going to exchange, or `amountTo` user wants to receive. All fields are required
+* Using `createFixTransaction` you need to provide the request with currency pair (`from`, `to`), recipient address, refund address (used in case of refund), rateID for this pair (that you get in getFixRate/getFixRateForAmount requests) and the `amountFrom` user is going to exchange, or `amountTo` user wants to receive. All fields are required
 
 * Important: in response there will be same fields presented as with the float rate api with `amountExpectedTo`. The number shown in the `amountExpectedTo` should be understood as a pay-out amount to the user
 
@@ -888,7 +838,7 @@ Example request fields:
 | refundAddress | optional | used in case of refund |
 | amountFrom | required | amount user is going to exchange |
 | amountTo | required | amount user wants to receive |
-| rateId | required | that you get from getFixRate/getFixRateBulk requests |
+| rateId | required | that you get from getFixRate/getFixRateForAmount requests |
 | extraId  | optional             | property for addresses of currencies that use additional ID for transaction processing (XRP, XLM, EOS, IGNIS, BNB, XMR, ARDOR, DCT, XEM) |
 | refundExtraId | optional | same as of `extraId` but for `refundAddress` |
 
