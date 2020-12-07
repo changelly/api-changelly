@@ -834,7 +834,7 @@ Example request fields:
 | from | required | currency to exchange from |
 | to | required | currency to exchange for |
 | address | required | recipient address |
-| refundAddress | optional | used in case of refund |
+| refundAddress | required | used in case of refund |
 | amountFrom | required | amount user is going to exchange |
 | amountTo | required | amount user wants to receive |
 | rateId | required | that you get from getFixRate/getFixRateForAmount requests |
