@@ -687,12 +687,12 @@ For this, you need to call `getPairsParams` for fetching minimal and maximal amo
     "method": "getPairsParams",
     "params": [
       {
-    	  "from": "eth",
-    	  "to": "btc"
+        "from": "eth",
+        "to": "btc"
       },
       {
-    	  "from": "eth",
-    	  "to": "wax"
+        "from": "btc",
+        "to": "eth"
       }
     ]
 }
@@ -708,18 +708,18 @@ For this, you need to call `getPairsParams` for fetching minimal and maximal amo
         {
             "from": "eth",
             "to": "btc",
-            "minAmountFloat": "0.042300000000000000",
-            "maxAmountFloat": null,
-            "minAmountFixed": "0.28200000000000000",
-            "maxAmountFixed": "73.0000000000000000000000"
+            "minAmountFloat": "0.0465",
+            "maxAmountFloat": "449172.45240999997",
+            "minAmountFixed": "0.0775",
+            "maxAmountFixed": "100"
         },
         {
-            "from": "eth",
-            "to": "wax",
-            "minAmountFloat": "0.03",
-            "maxAmountFloat": null,
-            "minAmountFixed": "0.2",
-            "maxAmountFixed": "73.0000000000000000000000"
+            "from": "btc",
+            "to": "eth",
+            "minAmountFloat": "0.0015",
+            "maxAmountFloat": "25629.527850432485",
+            "minAmountFixed": "0.0025",
+            "maxAmountFixed": "3.2138"
         }
     ]
 }
