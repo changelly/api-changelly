@@ -195,6 +195,7 @@ postman.setEnvironmentVariable('sign', sign)
 
 Commands `getCurrencies` and `getCurrenciesFull` will return you the currency list available for exchange. Check the list of available currencies at [Supported currencies page](https://changelly.com/supported-currencies "https://changelly.com/supported-currencies") before you start. Example request:
 
+#### getCurrencies
 ```json
 {
    "jsonrpc": "2.0",
@@ -221,6 +222,44 @@ Example response:
       "xmr",
       "zec"
    ]
+}
+```
+
+#### getCurrenciesFull
+```json
+{
+    "id": "test",
+    "jsonrpc": "2.0",
+    "method": "getCurrenciesFull",
+    "params": {
+    }
+}
+```
+
+
+Example response:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": "test",
+    "result": [
+        {
+            "name": "btc",
+            "ticker": "btc",
+            "fullName": "Bitcoin",
+            "enabled": true,
+            "enabledFrom": true,
+            "enabledTo": true,
+            "fixRateEnabled": true,
+            "payinConfirmations": 2,
+            "extraIdName": null,
+            "addressUrl": "https://www.blockchain.com/btc/address/%1$s",
+            "transactionUrl": "https://www.blockchain.com/btc/tx/%1$s",
+            "image": "https://web-api.changelly.com/api/coins/btc.png",
+            "fixedTime": 1200000
+        }
+    ]
 }
 ```
 
