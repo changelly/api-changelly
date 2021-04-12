@@ -45,10 +45,9 @@ The following methods are used to empower your service with Changelly exchange f
 
 ### **Getting started**
 
-1. Register and get an API key — [generate](/developers#keys "https://changelly.com/developers#keys");
+1. Contact us at pro@changelly.com to get the API keys;
 2. Read the following documentation;
 3. Open an issue if you have any questions;
-4. You can also connect at [pro@changelly.com](mailto:pro@changelly.com "pro@changelly.com").
 
 * * *
 
@@ -377,6 +376,43 @@ Example response:
 }
 ```
 
+If you want to receive an extended response when calling getExchangeAmount (with network fee, exchange fee, and other parameters included), please pass the request params as an array.
+
+```json
+{
+    "id": "test",
+    "jsonrpc": "2.0",
+    "method": "getExchangeAmount",
+    "params": [{
+        "from": "ETH",
+        "to": "BTC",
+        "amount": "1"
+    }]
+}
+```
+
+Example response:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": "test",
+    "result": [
+        {
+            "from": "eth",
+            "to": "btc",
+            "networkFee": "0.0005000000000000000000",
+            "amount": "1",
+            "result": "0.03558319",
+            "visibleAmount": "0.03572609437751004016",
+            "rate": "0.03572609437751004016",
+            "fee": "0.00014290437751004016064"
+        }
+    ]
+}
+```
+
+
 Example response fields:
 
 | Property | Description |
@@ -602,6 +638,69 @@ Example response:
    }]
 }
 ```
+
+To get details on a specific transaction, just include the "id" parameter in your request:
+
+```json
+{
+    "id": "test",
+    "jsonrpc": "2.0",
+    "method": "getTransactions",
+    "params": {
+        "id": "ahvt********dnfo",
+        "limit": 10
+    }
+}
+```
+
+Example response:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": "test",
+    "result": [
+        {
+            "id": "ahvt********dnfo",
+            "trackUrl": "https://changelly.com/track/ahvt********dnfo",
+            "createdAt": 1617187096,
+            "type": "float",
+            "moneyReceived": 0,
+            "moneySent": 0,
+            "rate": "0.00021545",
+            "payinConfirmations": "0",
+            "status": "waiting",
+            "currencyFrom": "xlm",
+            "currencyTo": "eth",
+            "payinAddress": "GDX6FFZUVSYTOV****************HUXXPXYOUIOY6CDQXG4NP6OEQ7",
+            "payinExtraId": "9783********7653",
+            "payinExtraIdName": "Memo.ID",
+            "payinHash": null,
+            "payoutHashLink": null,
+            "refundHashLink": null,
+            "amountExpectedFrom": "500",
+            "payoutAddress": "0xCde3463364****************73d7f91136Ac34",
+            "payoutExtraId": null,
+            "payoutExtraIdName": null,
+            "payoutHash": null,
+            "refundHash": null,
+            "amountFrom": "",
+            "amountTo": "0",
+            "amountExpectedTo": "0.10746",
+            "networkFee": "0",
+            "changellyFee": "0.25",
+            "apiExtraFee": "0.00",
+            "totalFee": null,
+            "fiatProviderId": null,
+            "fiatProvider": null,
+            "fiatProviderRedirect": null,
+            "canPush": false,
+            "canRefund": false
+        }
+    ]
+}
+```
+
 
 Note: first
 
