@@ -743,7 +743,7 @@ Example response:
 |failed|Transaction has failed. In most cases, the amount was less than the minimum. Please contact support and provide a transaction id.|
 |refunded|Exchange failed and coins were refunded to user's wallet. The wallet address should be provided by user.|
 |hold|Due to AML/KYC procedure, exchange may be delayed|
-|expired|In case payin was not sent within the indicated timeframe|
+|expired|In case payin for fixed-rate transaction was not sent within the indicated timeframe|
 
 ### **Fixed Rate Methods**
 
