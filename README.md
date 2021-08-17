@@ -34,7 +34,7 @@ The following methods are used to empower your service with Changelly exchange f
 
 1. Please read for better understanding [https://medium.com/@Changelly/changelly-api-to-robust-your-crypto-business-25f5030bc803](https://medium.com/@Changelly/changelly-api-to-robust-your-crypto-business-25f5030bc803).
 2. Welcome to check these articles on implementation examples in the other crypto wallets: [Trezor](https://medium.com/@Changelly/changelly-api-trezor-wallet-514662179fd8), [BRD](https://medium.com/@Changelly/the-coolest-feature-of-brd-a-short-how-to-use-guide-8e9805c49019), [Coinomi](https://medium.com/@Changelly/exchange-crypto-coinomi-5b7a7b7bac54), [Ginco]( https://medium.com/gincowallet/changelly-is-now-available-on-ginco-dfc79c59cd43), [Huobi](https://medium.com/@Changelly/huobi-wallet-guide-how-to-exchange-crypto-ee11e38a1eec), [Jelurida](https://medium.com/@Changelly/changelly-partnered-jelurida-618089e27328)
-3. [The usage scheme could be useful for you.](https://imgur.com/yngIkiv)
+3. [The usage scheme could be useful for you.](https://i.imgur.com/yngIkiv.png)
 4. Please note, that for currencies with multiple outputs in a transaction (BTC, LTC, etc), we do not accept more than one output per address in one transaction
 
 ### **Fixed Rate Exchange Feature**
@@ -65,12 +65,12 @@ Your API extra commission is included in a result of `getExchangeAmount` functio
 Usage
 -----
 
-[Usage schema](https://imgur.com/yngIkiv)
+[Usage schema](https://i.imgur.com/yngIkiv.png)
 
 Implementation examples on GitHub:
 
 * [Node.js](https://github.com/changelly/api-changelly "https://github.com/changelly/api-changelly")
-* [C#](https://github.com/changelly/changelly-examples/blob/master/c#/ChangellyExample.cs "https://github.com/changelly/changelly-examples/blob/master/c#/ChangellyExample.cs")
+* [C#](https://github.com/changelly/changelly-examples/blob/master/c%23/ChangellyExample.cs "https://github.com/changelly/changelly-examples/blob/master/c%23/ChangellyExample.cs")
 * [Python](https://github.com/changelly/changelly-examples/blob/master/python/example.py "https://github.com/changelly/changelly-examples/blob/master/python/example.py")
 * [PHP](https://github.com/changelly/changelly-examples/blob/master/php/example.php "https://github.com/changelly/changelly-examples/blob/master/php/example.php")
 
@@ -1078,7 +1078,7 @@ Response:
 
 You can get logo of each currency with
 
-[https://changelly.com/api/coins/btc.png](https://changelly.com/api/coins/btc.png)
+[https://web-api.changelly.com/api/coins/btc.png](https://web-api.changelly.com/api/coins/btc.png)
 
 ### **KYC/AML Policy**
 
@@ -1086,8 +1086,8 @@ You can get logo of each currency with
 2. Due to this policy, users’ transactions may be held for KYC procedures;
 3. That is why, before users start an exchange via our API, please, notify them about the possibility of holding the transactions for KYC procedures;
 4. You may want to use the following text: “Exchange services provided by Changelly. By clicking “Accept”, I acknowledge and understand that my transaction may trigger AML/KYC verification according to Changelly AML/KYC”;
-5. The text may appear in a form of a pop-up window, you are welcome to check the examples of a [desktop version notification](https://imgur.com/v0BDpk7) and a [mobile version notification](https://imgur.com/P540cbW);
-6. We also propose you to notify the users when their transaction is held for KYC, using API ‘Hold’ status. You are welcome to check [the example](https://imgur.com/z5mK4yp) of such notification.
+5. The text may appear in a form of a pop-up window, you are welcome to check the examples of a [desktop version notification](https://i.imgur.com/v0BDpk7.jpeg) and a [mobile version notification](https://i.imgur.com/P540cbW.jpeg);
+6. If a transaction of your customer gets ‘hold’ status, please ask the customer to contact our security team at security@changelly.com in order to pass the KYC procedure.
 
 ### **Support**
 
