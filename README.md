@@ -5,7 +5,6 @@ The following methods are used to empower your service with Changelly exchange f
 
 ### **Table of contents**:
 
-* [Basic info](#basic-info)
 * [Fixed Rate Exchange Feature](#fixed-rate-exchange-feature)
 * [Getting started](#getting-started)
 * [Your API extra fee](#your-api-extra-fee)
@@ -30,13 +29,6 @@ The following methods are used to empower your service with Changelly exchange f
 * [Generate API Keys](#developers-page__bottom)
 
 
-### **Basic info**
-
-1. Please read for better understanding [https://medium.com/@Changelly/changelly-api-to-robust-your-crypto-business-25f5030bc803](https://medium.com/@Changelly/changelly-api-to-robust-your-crypto-business-25f5030bc803).
-2. Welcome to check these articles on implementation examples in the other crypto wallets: [Trezor](https://medium.com/@Changelly/changelly-api-trezor-wallet-514662179fd8), [BRD](https://medium.com/@Changelly/the-coolest-feature-of-brd-a-short-how-to-use-guide-8e9805c49019), [Coinomi](https://medium.com/@Changelly/exchange-crypto-coinomi-5b7a7b7bac54), [Ginco]( https://medium.com/gincowallet/changelly-is-now-available-on-ginco-dfc79c59cd43), [Huobi](https://medium.com/@Changelly/huobi-wallet-guide-how-to-exchange-crypto-ee11e38a1eec), [Jelurida](https://medium.com/@Changelly/changelly-partnered-jelurida-618089e27328)
-3. [The usage scheme could be useful for you.](https://i.imgur.com/yngIkiv.png)
-4. Please note, that for currencies with multiple outputs in a transaction (BTC, LTC, etc), we do not accept more than one output per address in one transaction
-
 ### **Fixed Rate Exchange Feature**
 
 1. New way of exchanging the crypto assets
@@ -48,7 +40,9 @@ The following methods are used to empower your service with Changelly exchange f
 
 1. Contact us at pro@changelly.com to get the API keys;
 2. Read the following documentation;
-3. Open an issue if you have any questions;
+3. Open an issue if you have any questions.
+
+Please note, that for currencies with multiple outputs in a transaction (BTC, LTC, etc), we do not accept more than one output per address in one transaction.
 
 * * *
 
@@ -64,8 +58,6 @@ Your API extra commission is included in a result of `getExchangeAmount` functio
 
 Usage
 -----
-
-[Usage schema](https://i.imgur.com/yngIkiv.png)
 
 Implementation examples on GitHub:
 
