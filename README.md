@@ -12,29 +12,31 @@ The following methods are used to empower your service with Changelly exchange f
       - [Use Case](#use-case)
       - [Protocol](#protocol)
       - [Authentication](#authentication)
-         * [Node.js authentication](#nodejs-authentication)
-         * [Postman authentication](#postman-authentication)
+         - [Node.js authentication](#nodejs-authentication)
+         - [Postman authentication](#postman-authentication)
+* [API Methods](#api-methods)
       - [Currency List](#currency-list)
       - [Minimum Exchangable Amount](#minimum-exchangable-amount)
       - [Estimated Exchange Amount](#estimated-exchange-amount)
       - [Generating Transaction](#generating-transaction)
       - [Identifying The Transaction](#identifying-the-transaction)
       - [Getting Exchange Status](#getting-exchange-status)
-* [Fixed Rate Methods](#fixed-rate-methods)
+      - [Fixed Rate Methods](#fixed-rate-methods)
+      - [Address validation](#address-validation)
 * [Currencies logo](#currencies-logo)
 * [KYC/AML Policy](#kycaml-policy)
 * [Support](#support)
   - [Dedicated Support-Line](#dedicated-support-line)
   - [Online Transactions History](#online-transactions-history)
-* [Generate API Keys](#developers-page__bottom)
+* [Error codes](#error-codes)
 
 
 ### **Fixed Rate Exchange Feature**
 
-1. New way of exchanging the crypto assets
-2. 90+ cryptos available for the fixed-rate exchanges
-3. Users get the exact amount of money as they expected
-4. Less technical support requests on the subject of rate fluctuation and compensation
+1. New way of exchanging the crypto assets;
+2. 90+ cryptos available for the fixed rate exchanges;
+3. Users get the exact amount of money as they expected;
+4. Less technical support requests on the subject of rate fluctuation and compensation.
 
 ### **Getting started**
 
@@ -81,9 +83,10 @@ Here is simple use case of our exchange API:
 5.  API — call `getExchangeAmount` method to get estimated ETH amount after exchange;
 6.  GUI — show an estimated amount to user and ask for confirmation;
 7.  GUI — ask user for his wallet address to send coins after exchange;
-8.  API — call `createTransaction` method to get the LTC address to which user should send his funds;
-9.  GUI — ask user to send LTC coins to the address for exchange;
-10.  User sends LTC. We receive LTC and exchange it for ETH. We send ETH to the address that was submitted to `createTransaction` method;
+8.  API — call `validateAddress` method to validate the user's wallet addres for a given currency (ETH);
+9.  API — call `createTransaction` method to get the LTC address to which user should send his funds;
+10. GUI — ask user to send LTC coins to the address for exchange;
+11.  User sends LTC. We receive LTC and exchange it for ETH. We send ETH to the address that was submitted to `createTransaction` method;
 12.  Via `getTransactions` method you can get all the transactions history.
 
 ### **Protocol**
@@ -132,7 +135,6 @@ Example of how to sign a request with node.js `crypto` module:
 
 ```js
 const crypto = require("crypto");
-
 const message = {
   "jsonrpc": "2.0",
   "id": "test",
@@ -142,7 +144,6 @@ const message = {
     "to": "eth"
   },
 };
-
 const sign = crypto
    .createHmac('sha512', apiSecret)
    .update(JSON.stringify(message))
@@ -168,32 +169,41 @@ Here is a small guide how to properly sign transaction with postman:
 4. Paste the following code to the `Pre-request Script` tab for the request. Fill up the apiKey and secret variables. Be very careful not to accidentally share your secret.
 
 ```js
-
 const crypto = require('crypto-js')
-
 const apiKey = ''
 const secret = ''
-
 const sign = crypto.HmacSHA512(request.data, secret).toString()
-
 postman.setEnvironmentVariable('apiKey', apiKey)
 postman.setEnvironmentVariable('sign', sign)
-
 ```
 
 ![Postman pre-request script setup](https://i.imgur.com/tpiMzIu.png)
 
+API Methods
+-----
+
 ### **Currency List**
 
-Commands `getCurrencies` and `getCurrenciesFull` will return you the currency list available for exchange. Check the list of available currencies at [Supported currencies page](https://changelly.com/supported-currencies "https://changelly.com/supported-currencies") before you start. Example request:
+There are the commands to work with currencies:
+* `getCurrencies` will return you the list of currently enabled currencies; 
+  
+  We can disable and enable any currency at any time and the response list will reflect the change.
+* `getCurrenciesFull` will return the list of all available currencies along with description and state.
+  
+  If any of currencies is disabled by us, it will be returned in the response list with the `"enabled": false` property.
+  
+Check the list of available currencies at [Supported currencies page](https://changelly.com/supported-currencies "https://changelly.com/supported-currencies") before you start. 
 
 #### getCurrencies
+
+Example request:
+
 ```json
 {
    "jsonrpc": "2.0",
    "id": "test",
    "method": "getCurrencies",
-   "params": {},
+   "params": {}
 }
 ```
 
@@ -218,13 +228,15 @@ Example response:
 ```
 
 #### getCurrenciesFull
+
+Example request:
+
 ```json
 {
     "id": "test",
     "jsonrpc": "2.0",
     "method": "getCurrenciesFull",
-    "params": {
-    }
+    "params": {}
 }
 ```
 
@@ -249,19 +261,26 @@ Example response:
             "addressUrl": "https://www.blockchain.com/btc/address/%1$s",
             "transactionUrl": "https://www.blockchain.com/btc/tx/%1$s",
             "image": "https://web-api.changelly.com/api/coins/btc.png",
-            "fixedTime": 1200000
+            "fixedTime": 1200000,
+            "protocol": "BTC",
+            "blockchain": "bitcoin",
+            "notifications": {}
         }
     ]
 }
 ```
 
-_Note and warning_: getCurrencies returns a list of currently enabled currencies. We can disable and enable any currency at any time and the response list will reflect the change. Use `getCurrenciesFull` to get list of all available currencies along with description and state.
+_Note and warning_: According to clause 2.9.2 of our [Terms of Use](https://changelly.com/terms-of-use), “No crypto assets sent to us via an unsupported and/or not recommended network (e.g. POLYGON network) can be refunded. Recommended networks will be displayed to you during the transaction process.” 
+
+That’s why we are asking you to indicate the currency network in your interface so that your users can send funds via the correct network. Please use the `blockchain` field from the `getCurrenciesFull` method for that.
+
+Besides, there is the `notifications` field in the `getCurrenciesFull` method. This value contains important warnings that could help your customers make payments properly and significantly reduce the number of support inquiries. You can implement these notifications in your interface to make the UX better.
 
 ### **Minimum Exchangable Amount**
 
 To proceed with exchange we need it to be larger than the certain amount. Use `getMinAmount` with a currency pair (`from`, `to`) to notify users of the minimum amount they need to send.
 
-Example:
+Example request:
 
 ```json
 {
@@ -270,7 +289,7 @@ Example:
    "method": "getMinAmount",
    "params": {
       "from": "ltc",
-      "to": "eth",
+      "to": "eth"
    }
 }
 ```
@@ -291,7 +310,7 @@ Example response:
 
 You can show users the estimated amount of coins they receive as a result of exchange using `getExchangeAmount`. You need to provide the request with currency pair (`from`, `to`) and the `amount` user is going to exchange. Estimated `result` property includes Changelly plus partner extra fee. All fees are always in output currency. Your API extra fee will decrease the estimated `result`.
 
-Example:
+Example request:
 
 ```json
 {
@@ -302,7 +321,7 @@ Example:
       "from": "ltc",
       "to": "eth",
       "amount": "3.99"
-   },
+   }
 }
 ```
 
@@ -316,25 +335,27 @@ Example response:
 }
 ```
 
-When requesting more than 1 currency pair with getExchangeAmount you just have to pass array of arguments.
+When requesting more than 1 currency pair with `getExchangeAmount`, you just have to pass array of arguments.
+
+Example request:
 
 ```json
 {
   "jsonrpc": "2.0",
+  "id": "test",
   "method": "getExchangeAmount",
   "params": [
     {
       "from": "eth",
-      "to": "wax",
+      "to": "ltc",
       "amount": "1"
     },
     {
       "from": "btc",
-      "to": "wax",
+      "to": "ltc",
       "amount": "1"
     }
-  ],
-  "id": 1
+  ]
 }
 ```
 
@@ -343,33 +364,35 @@ Example response:
 ```json
 {
   "jsonrpc": "2.0",
-  "id": 1,
+  "id": "test",
   "result": [
     {
       "from": "eth",
-      "to": "wax",
-      "networkFee": "10.0000000000000000000000",
+      "to": "ltc",
+      "networkFee": "0.0016150300000000000000",
       "amount": "1",
-      "result": "3279.52",
-      "visibleAmount": "3296",
-      "rate": "3296",
-      "fee": "16.48"
+      "result": "23.54866500",
+      "visibleAmount": "23.66921184738955823293",
+      "rate": "23.66921184738955823293",
+      "fee": "0.09467684738955823293172"
     },
     {
       "from": "btc",
-      "to": "wax",
-      "networkFee": "10.0000000000000000000000",
+      "to": "ltc",
+      "networkFee": "0.0016150300000000000000",
       "amount": "1",
-      "result": "126612.755",
-      "visibleAmount": "127249",
-      "rate": "127249",
-      "fee": "636.245"
+      "result": "417.98039400",
+      "visibleAmount": "419.65903012048192771084",
+      "rate": "419.65903012048192771084",
+      "fee": "1.67863612048192771084336"
     }
   ]
 }
 ```
 
-If you want to receive an extended response when calling getExchangeAmount (with network fee, exchange fee, and other parameters included), please pass the request params as an array.
+If you want to receive an extended response when calling `getExchangeAmount` (with network fee, exchange fee, and other parameters included), please pass the request params as an array even if you request only 1 currency pair.
+
+Example request:
 
 ```json
 {
@@ -412,18 +435,18 @@ Example response fields:
 |---------------|--------------------------------------------------------------------------|
 | from | currency to exchange from |
 | to | currency to exchange for |
-| amount | amount of currency you are going to send |
 | networkFee | commission that is taken by the network from the amount sent to the user |
+| amount | amount of currency you are going to send |
+| result | includes exchange fee |
 | visibleAmount | the amount before any fees are deducted |
 | rate | current rate of exchange |
 | fee | exchange fee |
-| result | includes exchange fee |
 
 ### **Generating Transaction**
 
-After a successful call of `createTransaction` method you get a unique id to track the transaction status and a payin address for user to send money to.
+After a successful call of `createTransaction` method, you get a unique ID to track the transaction status and a payin address for user to send money to.
 
-`createTransaction`, once get called, creates a pair of deposit and payout address. If somebody sends coins to the same address twice, without second call to createTransaction, the coins will be exchanged and sent to the user's payout address.
+`createTransaction`, once get called, creates a pair of deposit and payout address. If somebody sends coins to the same address twice, without second call to `createTransaction`, the coins will be exchanged and sent to the user's payout address.
 
 | Property | Required or optional | Description |
 |----------|----------------------|-------------|
@@ -431,6 +454,7 @@ After a successful call of `createTransaction` method you get a unique id to tra
 | to       | required             | currency to exchange for |
 | address  | required             | recipient address |
 | extraId  | optional             | property for addresses of currencies that use additional ID for transaction processing (XRP, XLM, EOS, IGNIS, BNB, XMR, ARDOR, DCT, XEM) |
+| amount | required | amount of currency you are going to send |
 | refundAddress | optional | used in case of refund |
 | refundExtraId | optional | same as of `extraId` but for `refundAddress` |
 
@@ -442,7 +466,7 @@ Example request:
    "id": "test",
    "method": "createTransaction",
    "params": {
-      "from": "doge",
+      "from": "btc",
       "to": "ltc",
       "address": "<<valid ltc address>>",
       "extraId": null,
@@ -460,16 +484,16 @@ Example response:
    "result": {
       "id": "jev5lt0qmg26h48v",
       "apiExtraFee": "0",
-      "changellyFee": "0.5",
+      "changellyFee": "0.4",
       "payinExtraId": null,
       "payoutExtraId": null,
       "amountExpectedFrom": 1,
-      "amountExpectedTo": 3.99,
+      "amountExpectedTo": "417.72381300",
       "status": "new",
-      "currencyFrom": "eth",
+      "currencyFrom": "btc",
       "currencyTo": "ltc",
-      "amountTo": 0,
-      "payinAddress": "<<doge address to send coins to>>",
+      "amountTo": "0.00000000",
+      "payinAddress": "<<btc address to send coins to>>",
       "payoutAddress": "<<valid ltc address>>",
       "createdAt": "2018-09-24T10:31:18.000Z"
    }
@@ -503,14 +527,14 @@ Example 2 request:
   "id": "test",
   "method": "createTransaction",
   "params": {
-    "from": "doge",
+    "from": "eth",
     "to": "ltc",
     "address": "<<valid ltc address>>",
     "extraId": null,
     "amount": 1,
-    "refundAddress": "<<valid doge address to make automatic refund in case of transaction fail>>",
+    "refundAddress": "<<valid eth address to make automatic refund in case of transaction fail>>",
     "refundExtraId": null
-  },
+  }
 }
 ```
 
@@ -523,17 +547,18 @@ Example 2 response:
    "result": {
       "id": "pgj49c80p572minj",
       "apiExtraFee": "0",
-      "changellyFee": "0.5",
+      "changellyFee": "0.4",
       "payinExtraId": null,
       "payoutExtraId": null,
-      "refundAddress": "<<doge refund address>>",
+      "refundAddress": "<<eth refund address>>",
       "refundExtraId": null,
       "amountExpectedFrom": 1,
+      "amountExpectedTo": "22.28103500",
       "status": "new",
       "currencyFrom": "eth",
       "currencyTo": "ltc",
-      "amountTo": 0,
-      "payinAddress": "<<doge address to send coins to>>",
+      "amountTo": "0.00000000",
+      "payinAddress": "<<eth address to send coins to>>",
       "payoutAddress": "<<valid ltc address>>",
       "createdAt": "2018-09-24T10:33:39.000Z"
    }
@@ -544,11 +569,11 @@ _Note_: `amountTo: 0` is expected. `amountTo` will have non-zero value when tran
 
 ### **Identifying The Transaction**
 
-To identify transaction the id from the `createTransaction` method is used.
+To identify transaction, the ID from the `createTransaction` method is used.
 
 Also you can use `getTransactions` method to list all transactions that satisfy request params.
 
-_Note on transaction processing:_ It's common situation when there are many transactions in `waiting` status when processing payin. In this case transaction with `waiting` status and _the nearest_ amount is selected. And in case there are many - the earleast of them is selected. If the are no transactions in `waiting` status then new transaction is created automatically.
+_Note on transaction processing:_ It's common situation when there are many transactions in `waiting` status when processing payin. In this case transaction with `waiting` status and _the nearest_ amount is selected. And in case there are many – the earleast of them is selected. If the are no transactions in `waiting` status then new transaction is created automatically.
 
 All parameters for this method are optional.
 
@@ -569,7 +594,7 @@ Example request:
    "id": "test",
    "method": "getTransactions",
    "params": {
-      "currency": "doge",
+      "currency": "ltc",
       "address": "<<payin address to search>>",
       "extraId": null,
       "limit": 10,
@@ -585,54 +610,76 @@ Example response:
    "jsonrpc": "2.0",
    "id": "test",
    "result": [{
-      "id": "pgj49c80p572minj",
+      "id": "hugt9c80p572minj",
+      "trackUrl": "https://changelly.com/track/hugt9c80p572minj",
       "createdAt": 1537785219,
+      "type": "float",
       "moneyReceived": 0,
       "moneySent": 0,
+      "rate": "0.00248399",
       "payinConfirmations": "0",
       "status": "waiting",
-      "currencyFrom": "doge",
-      "currencyTo": "ltc",
+      "currencyFrom": "ltc",
+      "currencyTo": "btc",
       "payinAddress": "<<payin address>>",
       "payinExtraId": null,
+      "payinExtraIdName": null,
       "payinHash": null,
       "amountExpectedFrom": "1",
-      "payoutAddress": "",
-      "payoutExtraId": null,
-      "payoutHash": null,
-      "refundHash": null,
-      "amountFrom": "",
-      "amountTo": "0",
-      "networkFee": null,
-      "changellyFee": "0.5",
-      "apiExtraFee": "0"
-   }, {
-      "id": "7kcc21x5z66f5vv9",
-      "createdAt": 1535638050,
-      "moneyReceived": 1535638050,
-      "moneySent": 0,
-      "payinConfirmations": "1",
-      "status": "confirming",
-      "currencyFrom": "btc",
-      "currencyTo": "doge",
-      "payinAddress": "<<payin address>>",
-      "payinExtraId": null,
-      "payinHash": "txid4",
-      "amountExpectedFrom": "0",
       "payoutAddress": "<<payout address>>",
       "payoutExtraId": null,
+      "payoutExtraIdName": null,
       "payoutHash": null,
+      "payoutHashLink": null,
       "refundHash": null,
+      "refundHashLink": null,
+      "amountFrom": "",
+      "amountTo": "0",
+      "amountExpectedTo": "0.00247406",
+      "networkFee": "0",
+      "changellyFee": "0.4",
+      "apiExtraFee": "0.00",
+      "totalFee": null,
+      "canPush": false,
+      "canRefund": false
+   }, {
+      "id": "23kj7f5z66f5vv9",
+      "trackUrl": "https://changelly.com/track/23kj7f5z66f5vv9",
+      "createdAt": 1535638050,
+      "type": "fixed",
+      "moneyReceived": 0,
+      "moneySent": 0,
+      "rate": "0.04215763",
+      "payinConfirmations": "0",
+      "status": "confirming",
+      "currencyFrom": "ltc",
+      "currencyTo": "eth",
+      "payinAddress": "<<payin address>>",
+      "payinExtraId": null,
+      "payinExtraIdName": null,
+      "payinHash": "txid4",
+      "amountExpectedFrom": "1",
+      "payoutAddress": "<<payout address>>",
+      "payoutExtraId": null,
+      "payoutExtraIdName": null,
+      "payoutHash": null,
+      "payoutHashLink": null,
+      "refundHash": null,
+      "refundHashLink": null,
       "amountFrom": "1",
       "amountTo": "0",
+      "amountExpectedTo": "0.041989",
       "networkFee": null,
       "changellyFee": "0.5",
-      "apiExtraFee": "0"
+      "apiExtraFee": "0.00",
+      "totalFee": null,
+      "canPush": false,
+      "canRefund": false
    }]
 }
 ```
 
-To get details on a specific transaction, just include the "id" parameter in your request:
+To get details on a specific transaction, just include the `id` parameter in your request:
 
 ```json
 {
@@ -684,9 +731,6 @@ Example response:
             "changellyFee": "0.25",
             "apiExtraFee": "0.00",
             "totalFee": null,
-            "fiatProviderId": null,
-            "fiatProvider": null,
-            "fiatProviderRedirect": null,
             "canPush": false,
             "canRefund": false
         }
@@ -694,14 +738,11 @@ Example response:
 }
 ```
 
-
-Note: first
-
 ### **Getting Exchange Status**
 
-With the transaction ID, obtained from createTransaction call, you can get exchange status to notify your user or provide additional support.
+With the transaction ID obtained from `createTransaction` call, you can get exchange status to notify your user or provide additional support.
 
-Example:
+Example request:
 
 ```json
 {
@@ -733,10 +774,12 @@ Example response:
 |exchanging|Payment was confirmed and is being exchanged.|
 |sending|Coins are being sent to the recipient address.|
 |finished|Coins were successfully sent to the recipient address.|
-|failed|Transaction has failed. In most cases, the amount was less than the minimum. Please contact support and provide a transaction id.|
+|failed|Transaction has failed. In most cases, the amount was less than the minimum. Please contact support and provide a transaction ID.|
 |refunded|Exchange failed and coins were refunded to user's wallet. The wallet address should be provided by user.|
 |hold|Due to AML/KYC procedure, exchange may be delayed|
-|expired|In case payin for fixed-rate transaction was not sent within the indicated timeframe|
+|overdue|In case payin for floating rate transaction was not sent within the indicated timeframe.|
+|expired|In case payin for fixed rate transaction was not sent within the indicated timeframe.|
+
 
 ### **Fixed Rate Methods**
 
@@ -744,9 +787,9 @@ For fixed-rates we’ve added three methods in our API: `getFixRate`, `getFixRat
 
 #### **Getting the Fixed Rate**
 
-API Call - `getFixRate`
+API Call – `getFixRate`
 
-Request params example:
+Example request:
 
 ```json
 {
@@ -760,13 +803,13 @@ Request params example:
     },
     {
       "from": "eth",
-      "to": "wax"
+      "to": "ltc"
     }
   ]
 }
 ```
 
-Response example:
+Example response:
 
 ```json
 {
@@ -785,31 +828,33 @@ Response example:
     },
     {
       "id": "f4dd43107876ad5b88955a0b362645ce960a87c0fdb7ab540ed635799230107e830d3f",
-      "result": "3237.50839254",
+      "result": "22.1818471906",
       "from": "eth",
-      "to": "wax",
-      "maxFrom": "27.799155735744717075",
-      "maxTo": "89999.99999999",
-      "minFrom": "0.187060000000000000",
-      "minTo": "605.60831991"
+      "to": "ltc",
+      "maxFrom": "58.60648073",
+      "maxTo": "1299.99999994",
+      "minFrom": "0.09280000",
+      "minTo": "2.05847542"
     }
   ]
 }
 ```
-* minFrom, minTo, maxFrom, maxTo - denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially
-* “Max” and “min” params here denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially
-* fix rate methods return `rateId` that can be used for 1 minute or 30 sec in `getFixRateForAmount`. This time should be enough for user to initiate the exchange
-* `id` has to be stored somewhere and will be used as `rateId` param while calling
-* Expired `rateId` cannot be used for creation of the fixed-rate transaction
-* `result` or `rate` is a parameter that you can show to the user as the exchange rate
-* Important: users shall send the exact amount of funds which were specified as a pay-in amount. In case, users send different sum - the transaction can be automatically refunded
-* Important: for fixed rate transactions to process successfully, refund address must be presented as well as refund extraId if needed
 
-`getFixRateForAmount` returns a fixed exchange result of amount provided. It needs an additional parameter `amountFrom` user is going to exchange and returns `amountTo` user receive.
+* `minFrom`, `minTo`, `maxFrom`, `maxTo` params denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially.
+* Fixed rate methods return the rate `id` that can be used for 1 minute or 30 sec in `getFixRateForAmount`. This time should be enough for user to initiate the exchange.
+* Expired rate `id` cannot be used for creation of the fixed rate transaction.
+* `id` has to be stored somewhere and will be used as `rateId` param while calling.
+* `result` or `rate` is a parameter that you can show to the user as the exchange rate.
+* _Important:_ users shall send the exact amount of funds which were specified as a pay-in amount. In case, users send different sum – the transaction can be automatically refunded.
+* _Important:_ for fixed rate transactions to process successfully, refund address must be presented as well as refund extraId if needed.
+
+`getFixRateForAmount` returns a fixed exchange result of amount provided. It needs an additional parameter `amountFrom` that user is going to exchange and returns `amountTo` that user receives.
 
 First of all, you need to be sure about your amount is greater or equal than minimal amount and less or equal than maximal amount.
 
 For this, you need to call `getPairsParams` for fetching minimal and maximal amount for current pair.
+
+Example request: 
 
 ```json
 {
@@ -829,7 +874,7 @@ For this, you need to call `getPairsParams` for fetching minimal and maximal amo
 }
 ```
 
-`getPairsParams` response:
+Example response:
 
 ```json
 {
@@ -857,9 +902,9 @@ For this, you need to call `getPairsParams` for fetching minimal and maximal amo
 ```
 `minAmountFixed` and `maxAmountFixed` gives a range for amount provided by user.
 
-So, main difference between `getFixRateForAmount` and `getFixRate`  methods is that `getFixRateForAmount` fetch fixed amount according to additional parameter field `amountFrom`.
+So, main difference between `getFixRateForAmount` and `getFixRate`  methods is that `getFixRateForAmount` fetches fixed amount according to additional parameter field `amountFrom`.
 
-Request params example:
+Example request: 
 
 ```json
 {
@@ -873,15 +918,15 @@ Request params example:
       "amountFrom": "5.2"
     },
     {
-      "from": "eth",
-      "to": "wax",
+      "from": "btc",
+      "to": "eth",
       "amountFrom": "2.25"
     }
   ]
 }
 ```
 
-Response example:
+Example response: 
 
 ```json
 {
@@ -890,33 +935,33 @@ Response example:
   "result": [
     {
       "id": "f4dd43106d63b65b88955a0b362645ce960987c7ffb7a8480dd32e799431177f",
-      "rate": "0.02556948",
+      "result": "0.0554308823",
       "from": "eth",
       "to": "btc",
       "amountFrom": "5.2",
-      "amountTo": "0.132961296"
+      "amountTo": "0.28824058"
     },
     {
       "id": "f4dd43107876ad5b88955a0b362645ce960a87c0fdb7ab540ed635799230107e830d3f",
-      "rate": "3237.50839254",
-      "from": "eth",
-      "to": "wax",
+      "result": "17.7611598399",
+      "from": "btc",
+      "to": "eth",
       "amountFrom": "2.25",
-      "amountTo": "7284.393883215"
+      "amountTo": "39.96260963"
     }
   ]
 }
 ```
 * `id` has to be stored somewhere and will be used as `rateId` param for 30 seconds while calling.
-* Expired `rateId` cannot be used for creation of the fixed-rate transaction.
-* `rate` is a parameter that you can show to the user as the exchange rate.
+* Expired `rateId` cannot be used for creation of the fixed rate transaction.
+* `result` or `rate` is a parameter that you can show to the user as the exchange rate.
 * `from` and `to` parameters are present exchange pair provided by user.
 * `amountFrom` is a copy of provided by user `amountFrom` request's parameter.
-* `amountTo` is fixed exchange amount of assets that user will receive after create fixed-rate transaction with current `rateId`.
+* `amountTo` is fixed exchange amount of assets that user will receive after create fixed rate transaction with current `rateId`.
 
-If amount will not be correspond with minimal and maximal range for amount than error will be thrown.
+If amount will not be correspond with minimal and maximal range for amount then error will be thrown.
 
-Request params example:
+Example request: 
 
 ```json
 {
@@ -933,7 +978,7 @@ Request params example:
 }
 ```
 
-Response example:
+Example request: 
 
 ```json
 {
@@ -941,22 +986,22 @@ Response example:
     "id": "test",
     "error": {
         "code": -32600,
-        "message": "invalid amount: minimal amount is 0.28200000000000000"
+        "message": "Invalid amount: minimal amount for eth->btc is 0.0816"
     }
 }
 ```
 
 #### **Creating a fixed rate transaction**
 
-* Using `createFixTransaction` you need to provide the request with currency pair (`from`, `to`), recipient address, refund address (used in case of refund), rateID for this pair (that you get in getFixRate/getFixRateForAmount requests) and the `amountFrom` user is going to exchange, or `amountTo` user wants to receive. All fields are required
+* Using `createFixTransaction` you need to provide the request with currency pair (`from`, `to`), recipient address, refund address (used in case of refund), rateID for this pair (that you get in `getFixRate`/`getFixRateForAmount` requests) and the `amountFrom` user is going to exchange, or `amountTo` user wants to receive. All fields are required.
 
-* Important: in response there will be same fields presented as with the float rate api with `amountExpectedTo`. The number shown in the `amountExpectedTo` should be understood as a pay-out amount to the user
+* _Important:_ you can’t provide fields `amountFrom` and `amountTo` at the same time.
 
-* In response there is a payTill field, where is indicated till what time user needs to make the payment
+* Using `createFixTransaction`, you can provide a sum that user wants to receive during the exchange. For this you need to indicate the sum in the field `amountTo`.
 
-* Using `createFixTransaction` you can provide a sum, user wants to receive during the exchange. For this you need to indicate the sum in the field `amountTo`
+* _Important:_ in response there will be same fields presented as with the floating rate API with `amountExpectedTo`. The number shown in the `amountExpectedTo` should be understood as a pay-out amount to the user.
 
-* Important: you can’t provide fields `amountFrom` and amountTo at the same time.
+* In response there is a `payTill` field, where is indicated till what time user needs to make the payment.
 
 Example request fields:
 
@@ -968,13 +1013,11 @@ Example request fields:
 | refundAddress | required | used in case of refund |
 | amountFrom | required | amount user is going to exchange |
 | amountTo | required | amount user wants to receive |
-| rateId | required | that you get from getFixRate/getFixRateForAmount requests |
+| rateId | required | rate ID that you get from `getFixRate`/`getFixRateForAmount` requests |
 | extraId  | optional             | property for addresses of currencies that use additional ID for transaction processing (XRP, XLM, EOS, IGNIS, BNB, XMR, ARDOR, DCT, XEM) |
 | refundExtraId | optional | same as of `extraId` but for `refundAddress` |
 
-Example of request with providing the sum user wants to send:
-
-Request:
+Example request with providing the sum user wants to send:
 
 ```json
 {
@@ -992,7 +1035,7 @@ Request:
 }
 ```
 
-Response:
+Example response:
 
 ```json
 {
@@ -1019,9 +1062,7 @@ Response:
 }
 ```
 
-Example of request with providing the sum user wants to receive:
-
-Request:
+Example request with providing the sum user wants to receive:
 
 ```json
 {
@@ -1039,7 +1080,7 @@ Request:
 }
 ```
 
-Response:
+Example response:
 
 ```json
 {
@@ -1063,7 +1104,40 @@ Response:
     "payoutAddress": "0xeee03************Cf5E3DFc214",
     "createdAt": "2019-05-28T13:22:17.000Z"
   }
+}
+```
 
+### **Address validation**
+
+Use `validateAddress` method to check if a given wallet address is valid or not for a given currency. 
+
+You need to provide the request with `currency` ticker and wallet `address`. You can also use `extraId` parameter if needed.
+
+Example request:
+
+```json
+{
+  "id": "test",
+  "jsonrpc": "2.0",
+  "method": "validateAddress",
+  "params": {
+  	"currency": "btc",
+  	"address": "<<btc address>>"
+  }
+}
+```
+
+Example response:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": "test",
+    "result": {
+        "result": false,
+        "message": "Invalid address"
+    }
+}
 ```
 
 ### **Currencies logo**
@@ -1102,5 +1176,5 @@ The support line option is provided at the discretion of the Changelly's develop
 You can check all the transactions with online stats on the [history page](https://changelly.com/history "https://changelly.com/history") in your personal account.
 
 
-## Error codes
+### Error codes
 <table class="relative-table wrapped confluenceTable"><colgroup><col style="width: 5.84936%;" /><col style="width: 19.391%;" /><col style="width: 39.3429%;" /><col style="width: 35.4167%;" /></colgroup><tbody><tr><th class="confluenceTh">Code</th><th class="confluenceTh" colspan="1">Method</th><th class="confluenceTh">Message</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd" rowspan="3"><code>-32600</code><p><br /></p><p><br /></p></td><td class="confluenceTd" colspan="1"><p>getFixRateForAmount<span style="color: #003366;">,&nbsp;</span></p>getExchangeAmount</td><td class="confluenceTd" colspan="1"><p><code>Invalid amount: maximal amount is&nbsp;{max_amount}</code></p></td><td class="confluenceTd" colspan="1"><p>The attempt to exchange more currency than a maximal amount.</p></td></tr><tr><td class="confluenceTd" colspan="1"><p>getFixRateForAmount<span style="color: #003366;">,&nbsp;</span></p>getExchangeAmount</td><td class="confluenceTd" colspan="1"><p><code>Invalid amount: minimal amount is&nbsp;{min_amount}<br /></code></p></td><td class="confluenceTd" colspan="1"><p>The attempt to exchange less currency than a minimal amount.</p></td></tr><tr><td class="confluenceTd" colspan="1">Any method</td><td class="confluenceTd" colspan="1"><p><code>Error: You reached requests limit {limit}&nbsp;rps</code></p></td><td class="confluenceTd" colspan="1"><p>You have been sending more than 10 requests per second.</p></td></tr><tr><td class="confluenceTd" colspan="4"><br /></td></tr><tr><td class="confluenceTd"><code>-32601</code></td><td class="confluenceTd" style="text-align: left;" colspan="1">N/A</td><td class="confluenceTd" colspan="1"><p><code>Method not found</code></p></td><td class="confluenceTd" colspan="1">The method you're calling doesn't exist.</td></tr><tr><td class="confluenceTd" colspan="4"><br /></td></tr><tr><td class="confluenceTd" rowspan="10"><code>-32602</code><p><br /></p><p><br /></p><p><br /></p><p><br /></p><p><br /></p></td><td class="confluenceTd" colspan="1">Any method containing from/to parameter</td><td class="confluenceTd" colspan="1"><p><code>Invalid currency:&nbsp;{currency} temporary disabled<br /></code></p></td><td class="confluenceTd" colspan="1"><p>This currency is currently disabled.</p></td></tr><tr><td class="confluenceTd" colspan="1"><p>getFixRate,&nbsp;getFixRateForAmount, createFixTransaction</p></td><td class="confluenceTd" colspan="1"><p><code>Invalid currency:&nbsp;{currency} temporary disabled for fix rate transactions<br /></code></p></td><td class="confluenceTd" colspan="1"><p>This currency is currently disabled for fix-rate transactions.</p></td></tr><tr><td class="confluenceTd" colspan="1">Any method containing from/to parameter</td><td class="confluenceTd" colspan="1"><p><code>Invalid currency:&nbsp;{currency} is temporary disabled on API as output currency<br /></code></p></td><td class="confluenceTd" colspan="1"><p>This currency is currently disabled on API as an output currency.</p></td></tr><tr><td class="confluenceTd" colspan="1">Any method containing from/to parameter</td><td class="confluenceTd" colspan="1"><p><code>Invalid currency:&nbsp;{currency} is temporary disabled on API as input currency<br /></code></p></td><td class="confluenceTd" colspan="1"><p>This currency is currently disabled on API as an input currency.</p></td></tr><tr><td class="confluenceTd" colspan="1">Any method containing from/to parameter</td><td class="confluenceTd" colspan="1"><p><code>Invalid currency:&nbsp;{currency} not found</code></p></td><td class="confluenceTd" colspan="1"><p>This currency is not listed on Changelly.</p></td></tr><tr><td class="confluenceTd" colspan="1"><p>createTransaction,&nbsp;<br />createFixTransaction</p></td><td class="confluenceTd" colspan="1"><p><code>Error: Invalid address<br /></code></p></td><td class="confluenceTd" colspan="1"><p>You've specified an invalid payout address.</p></td></tr><tr><td class="confluenceTd" colspan="1"><p>createFixTransaction</p></td><td class="confluenceTd" colspan="1"><p><code>Error:<code class="c-mrkdwn__code c-mrkdwn__code--no_left_cap" style="text-align: left;"> Invalid refund address</code></code></p></td><td class="confluenceTd" colspan="1"><p>You've specified an invalid refund address.</p></td></tr><tr><td class="confluenceTd" colspan="1">Any method</td><td class="confluenceTd" colspan="1"><p><code><code class="c-mrkdwn__code c-mrkdwn__code--no_left_cap" style="text-align: left;">Parameter {param} is invalid</code></code></p></td><td class="confluenceTd" colspan="1"><p>You've specified an invalid parameter.&nbsp;</p></td></tr><tr><td class="confluenceTd" colspan="1"><p>createTransaction</p></td><td class="confluenceTd" colspan="1"><p><code><code class="c-mrkdwn__code c-mrkdwn__code--no_left_cap" style="text-align: left;"><span>Not enough liquidity in pair {from_currency}-&gt;{to_currency}. Max amount is {max_from} {from_currency}.</span><br /></code></code></p></td><td class="confluenceTd" colspan="1"><p><span>The amount you've specified exceeds maximal volume.</span></p></td></tr><tr><td class="confluenceTd" colspan="1">createFixTransaction</td><td class="confluenceTd" colspan="1"><code>Error: rateId was expired or already used. Use method getFixRateForAmount to generate new rateId&nbsp;</code></td><td class="confluenceTd" colspan="1">New rateId has to be generated.</td></tr><tr><td class="confluenceTd" colspan="4"><br /></td></tr><tr><td class="confluenceTd"><code>-32603</code></td><td class="confluenceTd" colspan="1">createFixTransaction</td><td class="confluenceTd" colspan="1"><p><code>Error: Creating fix transactions limit exceeds, wait 5 minute<br /></code></p></td><td class="confluenceTd" colspan="1"><p>The limit for creating fix-rate transactions was exceeded. Please wait for 5 more minutes and try again.</p></td></tr><tr><td class="confluenceTd"><br /></td><td class="confluenceTd" colspan="1">createTransaction</td><td class="confluenceTd" colspan="1"><p><code>An error encountered during address generation. Please try again later.<br /></code></p></td><td class="confluenceTd" colspan="1"><p>An error occurred during address generation.</p></td></tr><tr><td class="confluenceTd"><br /></td><td class="confluenceTd" colspan="1">Any method</td><td class="confluenceTd" colspan="1"><p><code>Internal Error OR Error</code></p></td><td class="confluenceTd" colspan="1"><p>Most likely, the problem is on our side. Further investigation is required.</p></td></tr></tbody></table>
