@@ -135,6 +135,7 @@ Example of how to sign a request with node.js `crypto` module:
 
 ```js
 const crypto = require("crypto");
+
 const message = {
   "jsonrpc": "2.0",
   "id": "test",
@@ -144,6 +145,7 @@ const message = {
     "to": "eth"
   },
 };
+
 const sign = crypto
    .createHmac('sha512', apiSecret)
    .update(JSON.stringify(message))
@@ -169,12 +171,17 @@ Here is a small guide how to properly sign transaction with postman:
 4. Paste the following code to the `Pre-request Script` tab for the request. Fill up the apiKey and secret variables. Be very careful not to accidentally share your secret.
 
 ```js
+
 const crypto = require('crypto-js')
+
 const apiKey = ''
 const secret = ''
+
 const sign = crypto.HmacSHA512(request.data, secret).toString()
+
 postman.setEnvironmentVariable('apiKey', apiKey)
 postman.setEnvironmentVariable('sign', sign)
+
 ```
 
 ![Postman pre-request script setup](https://i.imgur.com/tpiMzIu.png)
