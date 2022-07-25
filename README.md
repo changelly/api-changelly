@@ -16,7 +16,7 @@ The following methods are used to empower your service with Changelly exchange f
          - [Postman authentication](#postman-authentication)
 * [API Methods](#api-methods)
       - [Currency List](#currency-list)
-      - [Minimum Exchangable Amount](#minimum-exchangable-amount)
+      - [Minimum Exchangeable Amount](#minimum-exchangeable-amount)
       - [Estimated Exchange Amount](#estimated-exchange-amount)
       - [Generating Transaction](#generating-transaction)
       - [Identifying The Transaction](#identifying-the-transaction)
@@ -283,7 +283,7 @@ That’s why we are asking you to indicate the currency network in your interfac
 
 Besides, there is the `notifications` field in the `getCurrenciesFull` method. This value contains important warnings that could help your customers make payments properly and significantly reduce the number of support inquiries. You can implement these notifications in your interface to make the UX better.
 
-### **Minimum Exchangable Amount**
+### **Minimum Exchangeable Amount**
 
 To proceed with exchange we need it to be larger than the certain amount. Use `getMinAmount` with a currency pair (`from`, `to`) to notify users of the minimum amount they need to send.
 
@@ -809,9 +809,11 @@ Example response:
 
 ### **Fixed Rate Methods**
 
-For fixed-rates we’ve added three methods in our API: `getFixRate`, `getFixRateForAmount` and `createFixTransaction`.
+For fixed-rates we’ve added four methods in our API: `getFixRate`, `getFixRateForAmount`, `getPairsParams` and `createFixTransaction`. 
 
-#### **Getting the Fixed Rate**
+`getPairsParams` method can be also used for floating rate transactions.
+
+#### **Getting the fixed rate**
 
 API Call – `getFixRate`
 
@@ -872,61 +874,11 @@ Example response:
 * `id` has to be stored somewhere and will be used as `rateId` param while calling.
 * `result` or `rate` is a parameter that you can show to the user as the exchange rate.
 * _Important:_ users shall send the exact amount of funds which were specified as a pay-in amount. In case, users send different sum – the transaction can be automatically refunded.
-* _Important:_ for fixed rate transactions to process successfully, refund address must be presented as well as refund extraId if needed.
+* _Important:_ for fixed rate transactions to process successfully, refund address must be presented as well as refund `extraId` if needed.
+
+#### **Getting the fixed rate for specific amount**
 
 `getFixRateForAmount` returns a fixed exchange result of amount provided. It needs an additional parameter `amountFrom` that user is going to exchange and returns `amountTo` that user receives.
-
-First of all, you need to be sure about your amount is greater or equal than minimal amount and less or equal than maximal amount.
-
-For this, you need to call `getPairsParams` for fetching minimal and maximal amount for current pair.
-
-Example request: 
-
-```json
-{
-    "id": "test",
-    "jsonrpc": "2.0",
-    "method": "getPairsParams",
-    "params": [
-      {
-        "from": "eth",
-        "to": "btc"
-      },
-      {
-        "from": "btc",
-        "to": "eth"
-      }
-    ]
-}
-```
-
-Example response:
-
-```json
-{
-    "jsonrpc": "2.0",
-    "id": "test",
-    "result": [
-        {
-            "from": "eth",
-            "to": "btc",
-            "minAmountFloat": "0.0465",
-            "maxAmountFloat": "449172.45240999997",
-            "minAmountFixed": "0.0775",
-            "maxAmountFixed": "100"
-        },
-        {
-            "from": "btc",
-            "to": "eth",
-            "minAmountFloat": "0.0015",
-            "maxAmountFloat": "25629.527850432485",
-            "minAmountFixed": "0.0025",
-            "maxAmountFixed": "3.2138"
-        }
-    ]
-}
-```
-`minAmountFixed` and `maxAmountFixed` gives a range for amount provided by user.
 
 So, main difference between `getFixRateForAmount` and `getFixRate`  methods is that `getFixRateForAmount` fetches fixed amount according to additional parameter field `amountFrom`.
 
@@ -985,6 +937,8 @@ Example response:
 * `amountFrom` is a copy of provided by user `amountFrom` request's parameter.
 * `amountTo` is fixed exchange amount of assets that user will receive after create fixed rate transaction with current `rateId`.
 
+Before getting the fixed rate for specific amount, you need to be sure about your amount is greater or equal than minimal amount and less or equal than maximal amount. For this, you need to call [getPairsParams](#getting-the-pair-parameters) method for fetching minimal and maximal amount for current pair.
+
 If amount will not be correspond with minimal and maximal range for amount then error will be thrown.
 
 Example request: 
@@ -1016,6 +970,59 @@ Example request:
     }
 }
 ```
+
+#### **Getting the pair parameters**
+
+Use `getPairsParams` method to get the minimum and maximum exchangeable amount for specific pair of currencies.
+
+Example request: 
+
+```json
+{
+    "id": "test",
+    "jsonrpc": "2.0",
+    "method": "getPairsParams",
+    "params": [
+      {
+        "from": "eth",
+        "to": "btc"
+      },
+      {
+        "from": "btc",
+        "to": "eth"
+      }
+    ]
+}
+```
+
+Example response:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": "test",
+    "result": [
+        {
+            "from": "eth",
+            "to": "btc",
+            "minAmountFloat": "0.0465",
+            "maxAmountFloat": "449172.45240999997",
+            "minAmountFixed": "0.0775",
+            "maxAmountFixed": "100"
+        },
+        {
+            "from": "btc",
+            "to": "eth",
+            "minAmountFloat": "0.0015",
+            "maxAmountFloat": "25629.527850432485",
+            "minAmountFixed": "0.0025",
+            "maxAmountFixed": "3.2138"
+        }
+    ]
+}
+```
+
+`minAmountFixed` and `maxAmountFixed` gives a range for amount provided by user.
 
 #### **Creating a fixed rate transaction**
 
