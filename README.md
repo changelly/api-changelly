@@ -34,7 +34,7 @@ The following methods are used to empower your service with Changelly exchange f
 ### **Fixed Rate Exchange Feature**
 
 1. New way of exchanging the crypto assets;
-2. 90+ cryptos available for the fixed rate exchanges;
+2. 150+ cryptos available for the fixed rate exchanges;
 3. Users get the exact amount of money as they expected;
 4. Less technical support requests on the subject of rate fluctuation and compensation.
 
@@ -315,7 +315,11 @@ Example response:
 
 ### **Estimated Exchange Amount**
 
-You can show users the estimated amount of coins they receive as a result of exchange using `getExchangeAmount`. You need to provide the request with currency pair (`from`, `to`) and the `amount` user is going to exchange. Estimated `result` property includes Changelly plus partner extra fee. All fees are always in output currency. Your API extra fee will decrease the estimated `result`.
+You can show users the estimated amount of coins they receive as a result of exchange using `getExchangeAmount`. You need to provide the request with currency pair (`from`, `to`) and the `amount` user is going to exchange. 
+
+Estimated `result` property includes Changelly plus partner extra fee. Your API extra fee will decrease the estimated `result`. However, the network fee is deducted from the output amount. In order to get the network fee value, please use `getExchangeAmount` and pass the request params as an array (see the 2nd and 3rd example requests below).
+
+_Note_: All fees are always in output currency.
 
 Example request:
 
@@ -344,7 +348,7 @@ Example response:
 
 When requesting more than 1 currency pair with `getExchangeAmount`, you just have to pass array of arguments.
 
-Example request:
+Example 2 request:
 
 ```json
 {
@@ -366,7 +370,7 @@ Example request:
 }
 ```
 
-Example response:
+Example 2 response:
 
 ```json
 {
@@ -399,7 +403,7 @@ Example response:
 
 If you want to receive an extended response when calling `getExchangeAmount` (with network fee, exchange fee, and other parameters included), please pass the request params as an array even if you request only 1 currency pair.
 
-Example request:
+Example 3 request:
 
 ```json
 {
@@ -414,7 +418,7 @@ Example request:
 }
 ```
 
-Example response:
+Example 3 response:
 
 ```json
 {
@@ -573,6 +577,8 @@ Example 2 response:
 ```
 
 _Note_: `amountTo: 0` is expected. `amountTo` will have non-zero value when transaction is in `finished` state.
+
+_Note and warning_: If the `payinExtraId` parameter in the response is not `null`, it is required for user to send the funds to the `payinAddress` specifying `extraId`. Otherwise, the transactions will not be processed and the user will need to get a refund through technical support. 
 
 ### **Identifying The Transaction**
 
@@ -745,6 +751,19 @@ Example response:
 }
 ```
 
+To get details on multiple specific transactions, please pass the `id` parameter as an array:
+
+```json
+{
+    "id": "test",
+    "jsonrpc": "2.0",
+    "method": "getTransactions",
+    "params": { 
+      "id": ["xln3********ms8im", "tr4g3********zk4t4", "484ec********pln5"]
+    }
+}
+```
+
 ### **Getting Exchange Status**
 
 With the transaction ID obtained from `createTransaction` call, you can get exchange status to notify your user or provide additional support.
@@ -848,7 +867,7 @@ Example response:
 ```
 
 * `minFrom`, `minTo`, `maxFrom`, `maxTo` params denote the frame, inside of which we would be able to perform the fix rate exchange and give to the user the exact amount of assets that was shown initially.
-* Fixed rate methods return the rate `id` that can be used for 1 minute or 30 sec in `getFixRateForAmount`. This time should be enough for user to initiate the exchange.
+* Fixed rate methods return the `rateId` that can be used for a limited period of time. The `rateId` is valid for 30 sec in `getFixRateForAmount` and 1 minute in `getFixRate`. This time should be enough for user to initiate the exchange.
 * Expired rate `id` cannot be used for creation of the fixed rate transaction.
 * `id` has to be stored somewhere and will be used as `rateId` param while calling.
 * `result` or `rate` is a parameter that you can show to the user as the exchange rate.
