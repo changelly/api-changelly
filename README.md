@@ -1,7 +1,9 @@
 Instant exchange API
 =====================================
 
-The following methods are used to empower your service with Changelly exchange features. You can request more features by contacting our developers team. Changelly API is a white-label exchange solution.
+The following methods are used to empower your service with Changelly exchange features. You can request more features by contacting our developers team. Changelly API is a white-label exchange solution. 
+
+You can use Changelly API v1 or [migrate to API v2](#migration-to-api-v2) which is a faster, safer and more flexible version of our API.
 
 ### **Table of contents**:
 
@@ -23,6 +25,10 @@ The following methods are used to empower your service with Changelly exchange f
       - [Getting Exchange Status](#getting-exchange-status)
       - [Fixed Rate Methods](#fixed-rate-methods)
       - [Address validation](#address-validation)
+* [Migration to API v2](#migration-to-api-v2)
+      - [Authentication](#authentication)
+      - [Node.js authentication](#nodejs-authentication)
+      - [API v2 Methods](#api-v2-methods)
 * [Currencies logo](#currencies-logo)
 * [KYC/AML Policy](#kycaml-policy)
 * [Support](#support)
@@ -70,7 +76,10 @@ Implementation examples on GitHub:
 
 Postman Collection and short description of API methods with examples: [https://api-docs.changelly.com](https://api-docs.changelly.com/ "https://api-docs.changelly.com/"). You will need to set up authentication to use Postman with our API.
 
-API URL: `https://api.changelly.com`
+API URL: 
+* for API v1: `https://api.changelly.com`
+* for API v2: `https://api.changelly.com/v2`
+
 
 ### **Use Case**
 
@@ -121,6 +130,8 @@ Id used is a custom ID generated at the client side to distinguish responses. Yo
 
 ### **Authentication**
 
+_Note:_ This authentification guide applies to API v1. API v2 authentification is described in [Migration to API v2](#migration-to-api-v2) section.
+
 All requests must contain the following headers:
 
 | **Header** | **Description**                                                                               |
@@ -129,7 +140,7 @@ All requests must contain the following headers:
 | sign       | the query's serialized body signed by your key's "secret" according to the HMAC-SHA512 method |
 
 
-### **Node.js authentication**
+#### **Node.js authentication**
 
 Example of how to sign a request with node.js `crypto` module:
 
@@ -152,7 +163,7 @@ const sign = crypto
    .digest('hex');
 ```
 
-### **Postman authentication**
+#### **Postman authentication**
 
 Here is a small guide how to properly sign transaction with postman:
 
@@ -185,6 +196,7 @@ postman.setEnvironmentVariable('sign', sign)
 ```
 
 ![Postman pre-request script setup](https://i.imgur.com/tpiMzIu.png)
+
 
 API Methods
 -----
@@ -1172,6 +1184,108 @@ Example response:
     }
 }
 ```
+
+### **Migration to API v2**
+
+Changelly API v2 remains backward compatible with the previous version, so upgrading can be done in a few steps.
+
+#### **Authentication**
+
+All requests must contain the following headers:
+
+| **Header** | **Description**                                                                               |
+|------------|-----------------------------------------------------------------------------------------------|
+| X-Api-Signature| The query's serialized body signed by your private key according to the RSA-SHA256 method. |
+| X-Api-Key      | Your API key (SHA256 from Public Key). |
+
+You should generate the private and public keys pair:
+
+```js
+const crypto = require('crypto');
+
+const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+  modulusLength: 2048,
+  publicKeyEncoding: {
+    type: 'pkcs1',
+    format: 'der'
+  },
+  privateKeyEncoding: {
+    type: 'pkcs8',
+    format: 'der'
+  }
+});
+
+console.log('The private key is: ', privateKey.toString('hex'));
+console.log();
+console.log('The public key is: ', publicKey.toString('hex'));
+console.log();
+console.log('Api Key Base64 is: ', crypto.createHash('sha256').update(publicKey).digest('base64'));
+```
+
+_Note:_ We recommend to authentificate with Node.js.
+
+#### **Node.js authentication**
+
+Example of how to sign a request with Node.js `crypto` module:
+
+```js
+const crypto = require("crypto");
+const privateKeyString = "***YOUR_PRIVATE_KEY***";
+
+const privateKey = crypto.createPrivateKey({
+  key: privateKeyString,
+  format: 'der',
+  type: 'pkcs8',
+  encoding: 'hex'
+});
+
+const publicKey = crypto.createPublicKey(privateKey).export({
+    type: 'pkcs1',
+    format: 'der'
+});
+
+const message = {
+  "jsonrpc": "2.0",
+  "id": "test",
+  "method": "getMinAmount",
+  "params": {
+    "from": "ltc",
+    "to": "eth"
+  },
+};
+
+const signature = crypto.sign('sha256', Buffer.from(JSON.stringify(message)), {
+  key: privateKey,
+  type: 'pkcs8',
+  format: 'der'
+});
+console.log('Sign is:', signature.toString('hex'));
+console.log();
+console.log('Sign base64 is:', signature.toString('base64'));
+
+// ----------------------------------
+
+var request = require('request');
+var options = {
+  'method': 'POST',
+  'url': 'https://api.changelly.com/v2',
+  'headers': {
+    'Content-Type': 'application/json', 
+    'X-Api-Key': crypto.createHash('sha256').update(publicKey).digest('base64')), 
+    'X-Api-Signature': signature.toString('base64')
+  },
+  body: JSON.stringify(message)
+};
+
+request(options, function (error, response) {
+  if (error) throw new Error(error);
+  console.log(response.body);
+});
+```
+
+#### API v2 Methods
+
+Use [API methods](#api-methods) which are described for API v1, but switch API endpoint to `api.changelly.com/v2`.
 
 ### **Currencies logo**
 
