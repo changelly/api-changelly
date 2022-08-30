@@ -1287,6 +1287,8 @@ request(options, function (error, response) {
 
 Use [API methods](#api-methods) which are described for API v1, but switch API endpoint to `api.changelly.com/v2`.
 
+_Note and warning_: The rates and limits received by estimation API v2 methods with `api.changelly.com/v2` endpoint (`getFixRate`, `getMinAmount`, etc) will be available only for creating a transaction using the corresponding v2 methods (`createTransaction`, `createFixTransaction`). There are no major changes in the API interfaces but they can't be used at the same time for one transaction: you can't use the rate received by one version of API to create a transaction with another version.
+
 ### **Currencies logo**
 
 You can get logo of each currency with
