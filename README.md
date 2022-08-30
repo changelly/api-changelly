@@ -26,8 +26,8 @@ You can use Changelly API v1 or [migrate to API v2](#migration-to-api-v2) which 
       - [Fixed Rate Methods](#fixed-rate-methods)
       - [Address validation](#address-validation)
 * [Migration to API v2](#migration-to-api-v2)
-      - [Authentication](#authentication)
-      - [Node.js authentication](#nodejs-authentication)
+      - [Authentication](#authentication-1)
+      - [Node.js authentication](#nodejs-authentication-1)
       - [API v2 Methods](#api-v2-methods)
 * [Currencies logo](#currencies-logo)
 * [KYC/AML Policy](#kycaml-policy)
@@ -1196,7 +1196,7 @@ All requests must contain the following headers:
 | **Header** | **Description**                                                                               |
 |------------|-----------------------------------------------------------------------------------------------|
 | X-Api-Signature| The query's serialized body signed by your private key according to the RSA-SHA256 method. |
-| X-Api-Key      | Your API key (SHA256 from Public Key). |
+| X-Api-Key      | Your API key (SHA256 from public Key). |
 
 You should generate the private and public keys pair:
 
