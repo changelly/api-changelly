@@ -1196,7 +1196,7 @@ All requests must contain the following headers:
 | **Header** | **Description**                                                                               |
 |------------|-----------------------------------------------------------------------------------------------|
 | X-Api-Signature| The query's serialized body signed by your private key according to the RSA-SHA256 method. |
-| X-Api-Key      | Your API key (SHA256 from public Key). |
+| X-Api-Key      | Your API key (SHA256 from public key). |
 
 You should generate the private and public keys pair:
 
@@ -1230,7 +1230,7 @@ Example of how to sign a request with Node.js `crypto` module:
 
 ```js
 const crypto = require("crypto");
-const privateKeyString = "***YOUR_PRIVATE_KEY***";
+const privateKeyString = "<<YOUR_PRIVATE_KEY>>";
 
 const privateKey = crypto.createPrivateKey({
   key: privateKeyString,
