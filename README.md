@@ -1265,8 +1265,8 @@ console.log('Sign base64 is:', signature.toString('base64'));
 
 // ----------------------------------
 
-var request = require('request');
-var options = {
+const request = require('request');
+const options = {
   'method': 'POST',
   'url': 'https://api.changelly.com/v2',
   'headers': {
