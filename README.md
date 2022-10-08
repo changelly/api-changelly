@@ -136,7 +136,7 @@ All requests must contain the following headers:
 
 | **Header** | **Description**                                                                               |
 |------------|-----------------------------------------------------------------------------------------------|
-| api-key    | your api key                                                                                  |
+| apiKey    | your api key                                                                                  |
 | sign       | the query's serialized body signed by your key's "secret" according to the HMAC-SHA512 method |
 
 
@@ -171,11 +171,11 @@ Here is a small guide how to properly sign transaction with postman:
 
 ![Postman add new environment](https://i.imgur.com/JRKa2qb.png)
 
-2. Add `sign` and `api-key` variables to the new environment.
+2. Add `sign` and `apiKey` variables to the new environment.
 
 ![Postman manage environments setupt](https://i.imgur.com/P0sMNz7.png)
 
-3. Create new request. Being on the `Headers` tab add `sign` and `api-key` headers. Use postman variable syntax for them in `Value` column. These variables will be updated for each request using the pre-request script.
+3. Create new request. Being on the `Headers` tab add `sign` and `apiKey` headers. Use postman variable syntax for them in `Value` column. These variables will be updated for each request using the pre-request script.
 
 ![Postman headers setup](https://i.imgur.com/xfwxoQY.png)
 
